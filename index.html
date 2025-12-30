@@ -50,56 +50,45 @@
     </script>
 
     <style>
-        /* VARIABLES PARA IMÁGENES */
         :root {
-            --bg-1: url('https://images.unsplash.com/photo-1596524430615-b46476ddc543?q=80&w=600&auto=format&fit=crop');
-            --bg-2: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=600&auto=format&fit=crop');
-            --bg-3: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop');
+            --bg-1: url('1.png');
+            --bg-2: url('2.png');
+            --bg-3: url('3.png');
         }
 
         .bg-landscape {
-            background-image: url('https://images.unsplash.com/photo-1495539406979-bf61750d38ad?q=80&w=3000&auto=format&fit=crop');
+            background-image: var(--bg-1);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* ANIMACIÓN DEL SLIDER (CSS PURO) */
         @keyframes slideImageAnimation {
-            0%, 30% { opacity: 1; background-image: var(--bg-1); }
-            33%, 63% { opacity: 1; background-image: var(--bg-2); }
-            66%, 97% { opacity: 1; background-image: var(--bg-3); }
-            100% { opacity: 1; background-image: var(--bg-1); }
+            0%, 30% { background-image: var(--bg-1); }
+            33%, 63% { background-image: var(--bg-2); }
+            66%, 97% { background-image: var(--bg-3); }
+            100% { background-image: var(--bg-1); }
         }
 
         .phone-screen-slider {
-            background-color: #1f2937;
             background-size: cover;
             background-position: center;
-            transition: background-image 0.5s ease-in-out;
             animation: slideImageAnimation 12s infinite;
         }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.95);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
-        
-        .glass-dark {
-            background: rgba(21, 32, 43, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-        }
     </style>
 </head>
+
 <body class="bg-gray-50 font-sans text-gray-900 overflow-x-hidden">
 
-    <div class="fixed inset-0 bg-landscape z-[-2]"></div>
-    <div class="fixed inset-0 bg-white/80 z-[-1] backdrop-blur-[2px]"></div>
+<div class="fixed inset-0 bg-landscape z-[-2]"></div>
+<div class="fixed inset-0 bg-white/80 z-[-1] backdrop-blur-[2px]"></div>
 
     <main class="min-h-screen flex flex-col relative">
         
