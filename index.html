@@ -29,14 +29,23 @@
                         'float-delayed': 'float 7s ease-in-out 2s infinite',
                         'float-slow': 'float 8s ease-in-out 1s infinite',
                         'float-fast': 'float 5s ease-in-out 0.5s infinite',
+                        'float-reverse': 'floatReverse 7s ease-in-out 1.5s infinite',
+                        'float-jiggle': 'floatJiggle 6s ease-in-out 0.8s infinite',
                         'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'pulse-glow': 'pulseGlow 4s infinite',
-                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-15px)' },
+                        },
+                        floatReverse: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(15px)' },
+                        },
+                        floatJiggle: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-10px) rotate(2deg)' },
                         },
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(30px)' },
@@ -65,11 +74,13 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* FONDO DINÁMICO (Se carga vía JS) */
         .bg-landscape {
-            background-image: url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2938&auto=format&fit=crop');
+            background-color: #f8fafc; /* Fallback color */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            transition: background-image 0.5s ease-in-out;
         }
 
         /* ANIMACIÓN SLIDER APP */
@@ -96,10 +107,10 @@
 
         /* GLASSMORPHISM PRO */
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
 
@@ -181,9 +192,9 @@
                     </div>
                 </div>
 
-                <div class="order-1 lg:order-2 relative h-[550px] md:h-[650px] w-full flex justify-center items-center perspective-1000 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="order-1 lg:order-2 relative h-[600px] md:h-[700px] w-full flex justify-center items-center perspective-1000 animate-fade-in-up" style="animation-delay: 0.2s;">
                     
-                    <div class="absolute top-10 right-4 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-delayed z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-8 right-6 md:-right-2 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-delayed z-30 shadow-lg hover:scale-105 transition-transform duration-300">
                         <div class="w-10 h-10 bg-gradient-to-tr from-blue-400 to-cyan-300 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
@@ -193,13 +204,53 @@
                         </div>
                     </div>
 
-                    <div class="absolute bottom-32 -left-4 md:left-0 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-slow z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                    <div class="absolute bottom-24 -left-2 md:-left-6 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-slow z-30 shadow-lg hover:scale-105 transition-transform duration-300">
                         <div class="w-10 h-10 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
                             <i class="fa-solid fa-fire"></i>
                         </div>
                         <div>
                             <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Trending</p>
-                            <p class="text-xs font-bold text-gray-900">Fiesta en Rooftop</p>
+                            <p class="text-xs font-bold text-gray-900">Fiesta Rooftop</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute top-20 left-0 md:-left-8 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-green-400 to-emerald-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
+                            <i class="fa-solid fa-hand-wave"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Únete</p>
+                            <p class="text-xs font-bold text-gray-900">Sin esperas</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-12 right-8 md:right-0 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-fast z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-orange-400 to-amber-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
+                            <i class="fa-regular fa-comments"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Chat</p>
+                            <p class="text-xs font-bold text-gray-900">Coordina YA</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute top-1/2 -left-4 transform -translate-y-1/2 glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-reverse z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-teal-400 to-cyan-500 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Seguro</p>
+                            <p class="text-xs font-bold text-gray-900">Verificados</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute top-[40%] -right-6 md:-right-10 transform glass-card p-3 pr-5 rounded-2xl flex items-center gap-3 animate-float-jiggle z-30 shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-lg shadow-md">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Acceso</p>
+                            <p class="text-xs font-bold text-gray-900">Exclusivo</p>
                         </div>
                     </div>
 
@@ -321,8 +372,20 @@
             `${proxyUrl}${githubBase}3.png${optimizerParams}`
         ];
 
+        // NUEVO: Cargar Background desde GitHub (Optimizado HD)
+        const backgroundImage = `${proxyUrl}${githubBase}background.png${optimizerParams.replace('w=600', 'w=1920')}`;
+
         function loadImagesFromBackend() {
             const root = document.documentElement;
+            
+            // Cargar fondo principal
+            const bgImg = new Image();
+            bgImg.src = backgroundImage;
+            bgImg.onload = () => {
+                document.querySelector('.bg-landscape').style.backgroundImage = `url('${backgroundImage}')`;
+            };
+
+            // Cargar Slider
             if(sliderImages.length >= 3) {
                 sliderImages.forEach(src => { const img = new Image(); img.src = src; });
                 root.style.setProperty('--bg-1', `url('${sliderImages[0]}')`);
@@ -400,8 +463,7 @@
                 }
             }
         }
-        // Trigger inicial por si algo ya está en pantalla
-        reveal();
+        reveal(); // Trigger inicial
 
     </script>
 </body>
