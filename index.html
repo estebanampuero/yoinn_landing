@@ -360,8 +360,29 @@
         </section>
     </main>
 
-    <script>
-        // --- 1. IMÁGENES DINÁMICAS (CDN OPTIMIZADO) ---
+    <script type="module">
+        // Importar funciones de Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+
+        // --- CONFIGURACIÓN FIREBASE (TUS DATOS REALES) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpyJe9GfkBro93lMHdUN6l0YEfAsAvmAk",
+            authDomain: "yoinnapp.firebaseapp.com",
+            projectId: "yoinnapp",
+            storageBucket: "yoinnapp.firebasestorage.app",
+            messagingSenderId: "445235194138",
+            appId: "1:445235194138:web:54f11d53ea0835b65ae4a3",
+            measurementId: "G-EWFJ8V55LD"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        // --- LÓGICA DE UI & IMÁGENES ---
         const githubBase = 'https://raw.githubusercontent.com/estebanampuero/yoinn_landing/main/';
         const optimizerParams = '&w=600&output=webp&q=85';
         const proxyUrl = 'https://wsrv.nl/?url=';
@@ -371,21 +392,14 @@
             `${proxyUrl}${githubBase}2.png${optimizerParams}`,
             `${proxyUrl}${githubBase}3.png${optimizerParams}`
         ];
-
-        // NUEVO: Cargar Background desde GitHub (Optimizado HD)
         const backgroundImage = `${proxyUrl}${githubBase}background.png${optimizerParams.replace('w=600', 'w=1920')}`;
 
-        function loadImagesFromBackend() {
+        function loadImages() {
             const root = document.documentElement;
-            
-            // Cargar fondo principal
-            const bgImg = new Image();
-            bgImg.src = backgroundImage;
-            bgImg.onload = () => {
-                document.querySelector('.bg-landscape').style.backgroundImage = `url('${backgroundImage}')`;
-            };
-
-            // Cargar Slider
+            // Fondo
+            const bgImg = new Image(); bgImg.src = backgroundImage;
+            bgImg.onload = () => { document.querySelector('.bg-landscape').style.backgroundImage = `url('${backgroundImage}')`; };
+            // Slider
             if(sliderImages.length >= 3) {
                 sliderImages.forEach(src => { const img = new Image(); img.src = src; });
                 root.style.setProperty('--bg-1', `url('${sliderImages[0]}')`);
@@ -393,39 +407,31 @@
                 root.style.setProperty('--bg-3', `url('${sliderImages[2]}')`);
             }
         }
-        loadImagesFromBackend();
+        loadImages();
 
-        // --- 2. LOGICA DEL FORMULARIO (WEBHOOK N8N) ---
+        // --- MANEJO DEL FORMULARIO CON FIREBASE ---
         const form = document.getElementById('joinForm');
         const submitBtn = document.getElementById('submitBtn');
         const emailInput = document.getElementById('email');
         const statusDiv = document.getElementById('formStatus');
-        
-        // URL de tu Webhook
-        const WEBHOOK_URL = 'https://agentes-liw-n8n.6tpykr.easypanel.host/webhook/6edc55d5-0b88-4382-aa4d-a252f7bd5f0d';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const email = emailInput.value;
             const originalBtnContent = submitBtn.innerHTML;
 
-            // Estado de Carga
+            // Loading state
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
             statusDiv.classList.add('hidden');
 
             try {
-                // Enviar datos al Webhook
-                await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        email: email,
-                        source: 'landing_page',
-                        timestamp: new Date().toISOString()
-                    })
+                // Guardar en Firestore (Colección "waitlist")
+                await addDoc(collection(db, "waitlist"), {
+                    email: email,
+                    source: "landing_page",
+                    createdAt: serverTimestamp() // Marca de tiempo del servidor
                 });
 
                 // Éxito UI
@@ -433,38 +439,27 @@
                 submitBtn.classList.remove('bg-gray-900', 'hover:bg-brand-cyan');
                 submitBtn.classList.add('bg-green-500', 'hover:bg-green-600');
                 
-                statusDiv.textContent = "Te hemos añadido a la lista VIP. Revisa tu correo pronto.";
+                statusDiv.textContent = "¡Listo! Te avisaremos apenas lancemos.";
                 statusDiv.className = "mt-3 text-green-600 bg-green-50 text-sm font-bold p-3 rounded-xl animate-fade-in-up block";
-                
                 form.reset();
 
             } catch (error) {
-                // Error UI
-                console.error('Error:', error);
+                console.error("Error:", error);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnContent;
                 submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-
-                statusDiv.textContent = "Hubo un error. Por favor intenta de nuevo.";
+                statusDiv.textContent = "Error al guardar. Intenta de nuevo.";
                 statusDiv.className = "mt-3 text-red-500 bg-red-50 text-sm font-bold p-3 rounded-xl animate-fade-in-up block";
             }
         });
 
-        // --- 3. SCROLL REVEAL (Aparición suave al bajar) ---
-        window.addEventListener('scroll', reveal);
-        function reveal() {
-            var reveals = document.querySelectorAll('.reveal');
-            for (var i = 0; i < reveals.length; i++) {
-                var windowheight = window.innerHeight;
-                var revealtop = reveals[i].getBoundingClientRect().top;
-                var revealpoint = 100;
-                if (revealtop < windowheight - revealpoint) {
-                    reveals[i].classList.add('active');
-                }
-            }
-        }
-        reveal(); // Trigger inicial
-
+        // Scroll Reveal
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal').forEach(r => {
+                if(r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
+            });
+        });
+        window.dispatchEvent(new Event('scroll'));
     </script>
 </body>
 </html>
