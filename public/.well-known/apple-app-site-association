@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "SZYY54G5X9.cl.yoinn.app",
+        "paths": [ "/activity/*" ]
+      }
+    ]
+  }
+}
