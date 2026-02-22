@@ -6,42 +6,112 @@
     <title>Abriendo Yoinn...</title>
     
     <style>
+        /* Tipografía y fondo principal */
         body {
-            font-family: sans-serif;
-            background-color: #0F172A;
-            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FFFFFF;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            text-align: center;
-            padding: 20px;
             margin: 0;
+            overflow: hidden;
+            position: relative;
         }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #00BCD4;
+
+        /* 🎨 Manchas de color difuminadas detrás del cristal (El secreto del Glassmorphism) */
+        .blob {
+            position: absolute;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            filter: blur(60px);
+            z-index: 0;
+            opacity: 0.3;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .blob-1 {
+            width: 300px;
+            height: 300px;
+            background-color: #00BCD4; /* Cyan Yoinn */
+            top: -50px;
+            left: -50px;
+        }
+        .blob-2 {
+            width: 250px;
+            height: 250px;
+            background-color: #29B6F6; /* Cyan Secundario */
+            bottom: -50px;
+            right: -50px;
+        }
+
+        /* 🪟 Tarjeta Glassmorphism */
+        .glass-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 28px;
+            padding: 40px 30px;
+            max-width: 85%;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 🌟 Logo con animación Aesthetic de "Latido" */
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            border-radius: 18px;
+            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* Textos */
+        h2 {
+            margin: 0 0 8px 0;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #1A1A1A; /* Negro Yoinn */
+        }
+
+        p {
+            margin: 0 0 30px 0;
+            font-size: 15px;
+            color: #757575; /* Gris Yoinn */
+            font-weight: 500;
+        }
+
+        /* Botón Pro */
         .btn {
-            background-color: #00BCD4;
-            color: #0F172A;
-            padding: 12px 24px;
-            border-radius: 24px;
+            background-color: #1A1A1A; /* Negro elegante */
+            color: #FFFFFF;
+            padding: 16px 24px;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            display: inline-block;
-            transition: opacity 0.3s;
+            font-weight: 700;
+            font-size: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
         }
+        
         .btn:active {
-            opacity: 0.7;
+            transform: scale(0.96);
+            background-color: #000000;
         }
     </style>
 
@@ -56,23 +126,20 @@
             var btn = document.getElementById("manual-btn");
             var statusText = document.getElementById("status");
 
-            // Lógica Inteligente de Redirección
+            // Lógica Inteligente de Redirección (Intacta)
             if (/android/i.test(userAgent)) {
-                // Es Android -> Mandar a Play Store
                 statusText.innerText = "Redirigiendo a Google Play...";
                 btn.href = androidLink; 
                 btn.innerText = "Descargar en Google Play";
                 setTimeout(function() { window.location.href = androidLink; }, 1000);
                 
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // Es iOS -> Mandar a App Store
                 statusText.innerText = "Redirigiendo a App Store...";
                 btn.href = iosLink; 
                 btn.innerText = "Descargar en App Store";
                 setTimeout(function() { window.location.href = iosLink; }, 1000);
                 
             } else {
-                // Es PC/Mac -> Mandar al Home
                 statusText.innerText = "Llevándote al inicio...";
                 btn.href = homeLink;
                 btn.innerText = "Ir al sitio web";
@@ -82,10 +149,15 @@
     </script>
 </head>
 <body>
-    <div class="loader"></div>
-    <h2>Buscando tu actividad...</h2>
-    <p id="status">Verificando tu dispositivo...</p>
-    
-    <a id="manual-btn" href="#" class="btn">Cargando...</a>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="glass-card">
+        <img src="/logo.png" alt="Yoinn Logo" class="logo">
+        <h2>Buscando tu actividad...</h2>
+        <p id="status">Verificando tu dispositivo...</p>
+        
+        <a id="manual-btn" href="#" class="btn">Cargando...</a>
+    </div>
 </body>
 </html>
