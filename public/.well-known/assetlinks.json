@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "cl.yoinn.social",
+      "sha256_cert_fingerprints": [
+        "D5:94:8F:4A:32:50:3A:87:76:29:53:DF:7C:BC:C8:A3:50:D9:DF:2F:AA:87:D9:E2:CF:A8:9A:24:CB:7D:5A:22"
+      ]
+    }
+  }
+]

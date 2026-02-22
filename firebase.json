@@ -6,6 +6,7 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "cleanUrls": true,
     "headers": [
       {
         "source": "/.well-known/apple-app-site-association",
@@ -20,11 +21,11 @@
     "rewrites": [
       {
         "source": "/activity/**",
-        "destination": "/index.html"
+        "destination": "/share.html"
       },
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/invite/**",
+        "destination": "/share.html"
       }
     ]
   }
