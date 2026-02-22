@@ -17,6 +17,7 @@
             height: 100vh;
             text-align: center;
             padding: 20px;
+            margin: 0;
         }
         .loader {
             border: 4px solid #f3f3f3;
@@ -31,36 +32,50 @@
         .btn {
             background-color: #00BCD4;
             color: #0F172A;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 24px;
             text-decoration: none;
             font-weight: bold;
             margin-top: 20px;
             display: inline-block;
+            transition: opacity 0.3s;
+        }
+        .btn:active {
+            opacity: 0.7;
         }
     </style>
 
     <script>
         window.onload = function() {
-            // TUS LINKS AQUÍ
+            // TUS LINKS OFICIALES
             var androidLink = "https://play.google.com/store/apps/details?id=cl.yoinn.social";
-            var iosLink = "https://apps.apple.com/cl/app/yoinn/idTU_ID_DE_APPLE"; // Pon tu ID cuando lo tengas
+            var iosLink = "https://apps.apple.com/cl/app/id6756730755"; 
             var homeLink = "https://yoinn.cl";
 
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var btn = document.getElementById("manual-btn");
+            var statusText = document.getElementById("status");
 
-            // Lógica de Redirección
+            // Lógica Inteligente de Redirección
             if (/android/i.test(userAgent)) {
                 // Es Android -> Mandar a Play Store
-                document.getElementById("status").innerText = "Redirigiendo a Google Play...";
+                statusText.innerText = "Redirigiendo a Google Play...";
+                btn.href = androidLink; 
+                btn.innerText = "Descargar en Google Play";
                 setTimeout(function() { window.location.href = androidLink; }, 1000);
+                
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 // Es iOS -> Mandar a App Store
-                document.getElementById("status").innerText = "Redirigiendo a App Store...";
+                statusText.innerText = "Redirigiendo a App Store...";
+                btn.href = iosLink; 
+                btn.innerText = "Descargar en App Store";
                 setTimeout(function() { window.location.href = iosLink; }, 1000);
+                
             } else {
-                // Es PC -> Mandar al Home
-                document.getElementById("status").innerText = "Llevándote al inicio...";
+                // Es PC/Mac -> Mandar al Home
+                statusText.innerText = "Llevándote al inicio...";
+                btn.href = homeLink;
+                btn.innerText = "Ir al sitio web";
                 setTimeout(function() { window.location.href = homeLink; }, 1000);
             }
         };
@@ -69,8 +84,8 @@
 <body>
     <div class="loader"></div>
     <h2>Buscando tu actividad...</h2>
-    <p id="status">Si no tienes la app instalada, te llevaremos a la tienda.</p>
+    <p id="status">Verificando tu dispositivo...</p>
     
-    <a href="https://play.google.com/store/apps/details?id=cl.yoinn.social" class="btn">Descargar App Manualmente</a>
+    <a id="manual-btn" href="#" class="btn">Cargando...</a>
 </body>
 </html>
