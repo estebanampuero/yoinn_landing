@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "SZYY54G5X9.cl.yoinn.yoinnapp",
-        "paths": [ "/activity/*" ]
+        "paths": ["/activity/*", "/invite/*"]
       }
     ]
   }

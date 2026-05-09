@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{redirect_url}\" \"https://play.google.com/store/apps/details?id=cl.yoinn.yoinnapp\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://apps.apple.com/app/yoinn/id6756730755\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -L \"https://apps.apple.com/app/yoinn/id6756730755\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -L \"https://play.google.com/store/apps/details?id=cl.yoinn.social\")",
+      "Bash(python3 -c ' *)",
+      "Bash(firebase deploy *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://yoinnapp.web.app)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
+    ]
+  }
+}

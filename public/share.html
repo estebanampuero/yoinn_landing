@@ -3,161 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abriendo Yoinn...</title>
-    
+    <title>Yoinn – Abriendo actividad...</title>
+
+    <!-- Open Graph (preview en WhatsApp, iMessage, IG) -->
+    <meta property="og:title" content="Te invitaron a un Yoinn 🎉" />
+    <meta property="og:description" content="Únete a la actividad. Descarga Yoinn para verla." />
+    <meta property="og:image" content="https://yoinn.cl/1.png" />
+    <meta property="og:url" content="https://yoinn.cl" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <style>
-        /* Tipografía y fondo principal */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0D0D0D;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
             overflow: hidden;
             position: relative;
         }
-
-        /* 🎨 Manchas de color difuminadas detrás del cristal (El secreto del Glassmorphism) */
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-            opacity: 0.3;
+            filter: blur(80px);
+            opacity: 0.18;
+            pointer-events: none;
         }
-        .blob-1 {
-            width: 300px;
-            height: 300px;
-            background-color: #00BCD4; /* Cyan Yoinn */
-            top: -50px;
-            left: -50px;
-        }
-        .blob-2 {
-            width: 250px;
-            height: 250px;
-            background-color: #29B6F6; /* Cyan Secundario */
-            bottom: -50px;
-            right: -50px;
-        }
+        .blob-1 { width: 350px; height: 350px; background: #00BCD4; top: -80px; left: -80px; }
+        .blob-2 { width: 280px; height: 280px; background: #0097A7; bottom: -60px; right: -60px; }
 
-        /* 🪟 Tarjeta Glassmorphism */
-        .glass-card {
+        .card {
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 28px;
-            padding: 40px 30px;
-            max-width: 85%;
+            padding: 44px 32px 36px;
             width: 320px;
+            max-width: 90vw;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* 🌟 Logo con animación Aesthetic de "Latido" */
         .logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 24px;
+            width: 76px; height: 76px;
             border-radius: 18px;
+            margin-bottom: 22px;
             animation: pulse 2s infinite ease-in-out;
-            box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+            box-shadow: 0 12px 28px rgba(0,188,212,0.25);
         }
-
         @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            0%, 100% { transform: scale(0.96); }
+            50% { transform: scale(1.04); }
         }
 
-        /* Textos */
         h2 {
-            margin: 0 0 8px 0;
-            font-size: 22px;
+            color: #fff;
+            font-size: 21px;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #1A1A1A; /* Negro Yoinn */
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
         }
-
-        p {
-            margin: 0 0 30px 0;
-            font-size: 15px;
-            color: #757575; /* Gris Yoinn */
+        .subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
             font-weight: 500;
+            margin-bottom: 32px;
+            line-height: 1.5;
         }
 
-        /* Botón Pro */
+        .spinner {
+            width: 28px; height: 28px;
+            border: 3px solid rgba(0,188,212,0.25);
+            border-top-color: #00BCD4;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .status {
+            color: rgba(255,255,255,0.45);
+            font-size: 13px;
+            margin-bottom: 28px;
+            min-height: 18px;
+        }
+
         .btn {
-            background-color: #1A1A1A; /* Negro elegante */
-            color: #FFFFFF;
-            padding: 16px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
+            display: block;
             width: 100%;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+            margin-bottom: 10px;
         }
-        
-        .btn:active {
-            transform: scale(0.96);
-            background-color: #000000;
+        .btn:active { transform: scale(0.97); opacity: 0.85; }
+        .btn-primary { background: #00BCD4; color: #fff; }
+        .btn-secondary {
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px;
+            margin-bottom: 0;
         }
+        .btn-secondary:active { opacity: 0.6; }
+        #actions { display: none; width: 100%; }
     </style>
-
-    <script>
-        window.onload = function() {
-            // TUS LINKS OFICIALES
-            var androidLink = "https://play.google.com/store/apps/details?id=cl.yoinn.social";
-            var iosLink = "https://apps.apple.com/cl/app/id6756730755"; 
-            var homeLink = "https://yoinn.cl";
-
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            var btn = document.getElementById("manual-btn");
-            var statusText = document.getElementById("status");
-
-            // Lógica Inteligente de Redirección (Intacta)
-            if (/android/i.test(userAgent)) {
-                statusText.innerText = "Redirigiendo a Google Play...";
-                btn.href = androidLink; 
-                btn.innerText = "Descargar en Google Play";
-                setTimeout(function() { window.location.href = androidLink; }, 1000);
-                
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                statusText.innerText = "Redirigiendo a App Store...";
-                btn.href = iosLink; 
-                btn.innerText = "Descargar en App Store";
-                setTimeout(function() { window.location.href = iosLink; }, 1000);
-                
-            } else {
-                statusText.innerText = "Llevándote al inicio...";
-                btn.href = homeLink;
-                btn.innerText = "Ir al sitio web";
-                setTimeout(function() { window.location.href = homeLink; }, 1000);
-            }
-        };
-    </script>
 </head>
 <body>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <div class="glass-card">
-        <img src="/logo.png" alt="Yoinn Logo" class="logo">
-        <h2>Buscando tu actividad...</h2>
-        <p id="status">Verificando tu dispositivo...</p>
-        
-        <a id="manual-btn" href="#" class="btn">Cargando...</a>
+    <div class="card">
+        <img src="/logo.png" alt="Yoinn" class="logo">
+        <h2>Te invitaron a un Yoinn</h2>
+        <p class="subtitle">Abriendo la app...<br>Si no tienes Yoinn, descárgala gratis.</p>
+
+        <div class="spinner" id="spinner"></div>
+        <p class="status" id="status">Verificando si tienes la app...</p>
+
+        <div id="actions">
+            <a id="store-btn" href="#" class="btn btn-primary">Descargar Yoinn</a>
+            <a id="open-btn" href="#" class="btn btn-secondary">Ya la tengo → Abrir actividad</a>
+        </div>
     </div>
+
+    <script>
+        (function () {
+            var ua = navigator.userAgent || '';
+            var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            var isAndroid = /android/i.test(ua);
+
+            var androidStore = "https://play.google.com/store/apps/details?id=cl.yoinn.social";
+            var iosStore = "https://apps.apple.com/cl/app/id6756730755";
+            var storeLink = isIOS ? iosStore : isAndroid ? androidStore : "https://yoinn.cl";
+
+            // Extraer activityId de la URL: /activity/ABC123
+            var parts = window.location.pathname.split('/').filter(Boolean);
+            var activityId = (parts[0] === 'activity' && parts[1]) ? parts[1] : null;
+
+            var deepLink = activityId
+                ? 'yoinn://activity/' + activityId
+                : 'yoinn://home';
+
+            var storeBtn = document.getElementById('store-btn');
+            var openBtn  = document.getElementById('open-btn');
+            var actions  = document.getElementById('actions');
+            var status   = document.getElementById('status');
+            var spinner  = document.getElementById('spinner');
+
+            storeBtn.href = storeLink;
+            storeBtn.innerText = isIOS
+                ? 'Descargar en App Store'
+                : isAndroid
+                    ? 'Descargar en Google Play'
+                    : 'Ir al sitio web';
+
+            openBtn.href = deepLink;
+
+            function showFallback(msg) {
+                spinner.style.display = 'none';
+                status.innerText = msg || '';
+                actions.style.display = 'block';
+            }
+
+            // Intenta abrir la app via custom scheme
+            // Si la app está instalada → se abre y el timer nunca dispara
+            // Si no está instalada → 2.5s después mostramos los botones
+            var appOpened = false;
+
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) appOpened = true;
+            });
+
+            window.addEventListener('blur', function () {
+                appOpened = true;
+            });
+
+            // Intento de apertura via window.location (funciona iOS 10+ y Android)
+            if (isIOS || isAndroid) {
+                status.innerText = 'Intentando abrir Yoinn...';
+                window.location.href = deepLink;
+
+                setTimeout(function () {
+                    if (!appOpened) {
+                        showFallback('No encontramos la app instalada.');
+                    }
+                }, 2500);
+            } else {
+                // Desktop: mostrar botones directamente
+                showFallback('Abre este link desde tu celular.');
+            }
+        })();
+    </script>
 </body>
 </html>
