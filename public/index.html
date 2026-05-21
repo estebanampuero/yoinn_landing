@@ -1,73 +1,1174 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOINN - Social Discovery App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yoinn — ¿Hoy qué hacemos?</title>
+  <meta name="description"
+    content="Yoinn es la app que te saca de la pantalla. Actividades reales, gente real, cerca de ti." />
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+  <meta property="og:title" content="Yoinn — ¿Hoy qué hacemos?" />
+  <meta property="og:description" content="El antídoto contra la soledad moderna. Descarga gratis." />
+  <meta property="og:image" content="https://yoinn.cl/assets/pin.png" />
+  <meta property="og:url" content="https://yoinn.cl" />
+  <meta property="og:type" content="website" />
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { cyan: '#00BCD4', dark: '#0F172A', light: '#F0F8FA', accent: '#38BDF8' }
-                    },
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    animation: {
-                        'float':          'float 6s ease-in-out infinite',
-                        'float-delayed':  'float 7s ease-in-out 2s infinite',
-                        'float-slow':     'float 8s ease-in-out 1s infinite',
-                        'float-fast':     'float 5s ease-in-out 0.5s infinite',
-                        'float-reverse':  'floatReverse 7s ease-in-out 1.5s infinite',
-                        'float-jiggle':   'floatJiggle 6s ease-in-out 0.8s infinite',
-                        'fade-in-up':     'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'pulse-glow':     'pulseGlow 4s infinite',
-                    },
-                    keyframes: {
-                        float:       { '0%, 100%': { transform: 'translateY(0)' },  '50%': { transform: 'translateY(-15px)' } },
-                        floatReverse:{ '0%, 100%': { transform: 'translateY(0)' },  '50%': { transform: 'translateY(15px)' } },
-                        floatJiggle: { '0%, 100%': { transform: 'translateY(0) rotate(0deg)' }, '50%': { transform: 'translateY(-10px) rotate(2deg)' } },
-                        fadeInUp:    { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        pulseGlow:   { '0%, 100%': { opacity: '0.4', transform: 'scale(1)' }, '50%': { opacity: '0.7', transform: 'scale(1.05)' } },
-                    }
-                }
-            }
+  <link rel="icon" type="image/png" href="assets/pin.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyan: { 400: '#00E5FF', 500: '#00BCD4', 600: '#00ACC1', 700: '#0097A7' },
+            mint: { 50: '#F0FAFA', 100: '#E0F4F4', 200: '#C8ECEC', 300: '#A8DEDE' },
+            ink: { 900: '#0A0E1A', 800: '#141A2A', 700: '#1A2332', 600: '#2A3548', 500: '#5A6B7E' },
+            coral: { 500: '#FF5E5B', 600: '#E84743' },
+            gold: { 400: '#FFD93B', 500: '#E8B65A', 600: '#C9963F' }
+          },
+          fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+          animation: {
+            'pulse-soft': 'pulse-soft 2.5s ease-in-out infinite',
+            'float-slow': 'float-slow 6s ease-in-out infinite',
+            'float-slower': 'float-slow 9s ease-in-out infinite',
+          },
+          keyframes: {
+            'pulse-soft': { '0%,100%': { opacity: 1, transform: 'scale(1)' }, '50%': { opacity: 0.6, transform: 'scale(1.4)' } },
+            'float-slow': { '0%,100%': { transform: 'translateY(0px) rotate(0deg)' }, '50%': { transform: 'translateY(-18px) rotate(1deg)' } },
+          }
         }
-    </script>
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --cyan-grad: linear-gradient(135deg, #00E5FF 0%, #00BCD4 50%, #0097A7 100%);
+      --bg: #E8F6F6;
+    }
 
-    <!-- Deep link redirect -->
-    <script>
-        window.onload = function () {
-            var path = window.location.pathname;
-            if (path.includes('/activity/')) {
-                var ua = navigator.userAgent || navigator.vendor || window.opera;
-                if (/android/i.test(ua)) {
-                    window.location.href = 'https://play.google.com/store/apps/details?id=cl.yoinn.social';
-                } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-                    window.location.href = 'https://apps.apple.com/app/yoinn/id6756730755';
-                }
-            }
-        };
-    </script>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: var(--bg);
+      color: #0A0E1A;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Fixed tiled pin pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('assets/pin.png');
+      background-size: 320px;
+      background-repeat: space;
+      background-position: 40px 40px;
+      opacity: 0.045;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient gradient blobs */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 12% 12%, rgba(0,229,255,0.12), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 88% 88%, rgba(0,151,167,0.10), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav, section, footer { position: relative; z-index: 1; }
+
+    .display {
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.92;
+      text-wrap: balance;
+    }
+
+    .display-md {
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.0;
+      text-wrap: balance;
+    }
+
+    .eyebrow {
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    .text-grad-cyan {
+      background: var(--cyan-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .btn-cyan {
+      background: var(--cyan-grad);
+      box-shadow: 0 12px 40px -8px rgba(0,188,212,0.55), 0 0 0 1px rgba(255,255,255,0.4) inset;
+      transition: transform .15s ease, box-shadow .25s ease;
+    }
+    .btn-cyan:active { transform: scale(.96); }
+    .btn-cyan:hover { box-shadow: 0 16px 50px -6px rgba(0,188,212,0.7), 0 0 0 1px rgba(255,255,255,0.5) inset; }
+
+    .watermark {
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(0,188,212,0.07);
+      font-size: clamp(180px, 28vw, 420px);
+      line-height: 0.8;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .phone-frame {
+      border-radius: 44px;
+      background: #0A0E1A;
+      padding: 12px;
+      box-shadow:
+        0 60px 120px -30px rgba(10,14,26,0.45),
+        0 30px 60px -20px rgba(0,188,212,0.25),
+        0 0 0 1px rgba(0,0,0,0.06);
+    }
+    .phone-frame img { border-radius: 32px; display: block; width: 100%; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal.delay-1 { transition-delay: 0.08s; }
+    .reveal.delay-2 { transition-delay: 0.16s; }
+    .reveal.delay-3 { transition-delay: 0.24s; }
+
+    /* ── Marquee system ──────────────────────────────── */
+
+    /* Keyframes driven by WAAPI (JS sets translate3d px values).
+       These fallback CSS keyframes keep pills working if JS is slow. */
+    @keyframes mq-rtl {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, 0, 0); }
+    }
+    @keyframes mq-ltr {
+      from { transform: translate3d(-50%, 0, 0); }
+      to   { transform: translate3d(0, 0, 0); }
+    }
+
+    /* Outer clip + fade masks (GPU composited via mask) */
+    .mq-wrap {
+      overflow: hidden;
+      position: relative;
+      contain: layout style;
+      /* Cinematic fade on both edges — hides loop seam entry/exit */
+      -webkit-mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      );
+    }
+
+    /* Inner scrolling track — GPU layer, no reflow */
+    .mq-track {
+      display: flex;
+      /* width stays intrinsic (max-content via flex) */
+      will-change: transform;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      /* Promote to own layer immediately */
+      transform: translate3d(0, 0, 0);
+      /* CSS fallback for pills (overridden by WAAPI for gallery) */
+      animation: mq-rtl 35s linear infinite;
+    }
+
+    /* LTR variant — applied by JS via data attribute */
+    .mq-track[data-dir="ltr"] {
+      animation: mq-ltr 50s linear infinite;
+    }
+
+    /* Category pill */
+    .cat-pill {
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      margin: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* Step number outline */
+    .step-num {
+      font-weight: 900;
+      font-size: clamp(120px, 18vw, 240px);
+      line-height: 0.85;
+      letter-spacing: -0.06em;
+      -webkit-text-stroke: 2px rgba(0,188,212,0.7);
+      color: transparent;
+    }
+
+    /* Floating badge */
+    .float-badge {
+      position: absolute;
+      background: white;
+      border-radius: 18px;
+      padding: 10px 14px;
+      box-shadow: 0 20px 40px -10px rgba(10,14,26,0.18);
+      font-weight: 700;
+      font-size: 0.84rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    a, button { -webkit-tap-highlight-color: transparent; }
+
+    .lang-toggle {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 999px;
+      padding: 4px;
+      display: inline-flex;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .lang-toggle button { padding: 6px 12px; border-radius: 999px; color: #5A6B7E; transition: all .2s; }
+    .lang-toggle button.active { background: #0A0E1A; color: white; }
+
+    /* Photo card */
+    .photo-card {
+      flex: 0 0 auto;
+      width: clamp(200px, 26vw, 320px);
+      aspect-ratio: 3/4;
+      border-radius: 28px;
+      overflow: hidden;
+      margin: 0 10px;
+      background: #C8ECEC;
+      box-shadow:
+        0 20px 40px -15px rgba(10,14,26,0.20),
+        0 0 0 1px rgba(255,255,255,0.06);
+      position: relative;
+      /* GPU layer — prevents recomposite during parent translate */
+      transform: translate3d(0, 0, 0);
+      transition:
+        transform 0.45s cubic-bezier(0.34, 1.26, 0.64, 1),
+        box-shadow 0.45s ease;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Scale and lift only when marquee is paused (parent hovered) */
+    @media (hover: hover) {
+      .mq-wrap:hover .photo-card:hover {
+        transform: translate3d(0, -8px, 0) scale(1.035);
+        box-shadow:
+          0 50px 90px -20px rgba(10,14,26,0.38),
+          0 0 0 1px rgba(255,255,255,0.14);
+        z-index: 10;
+      }
+      .mq-wrap:hover .photo-card:hover img {
+        transform: scale(1.06);
+      }
+    }
+
+    .photo-card .meta {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+      z-index: 2;
+      /* Slide up slightly on card hover */
+      transition: transform 0.35s ease;
+    }
+
+    @media (hover: hover) {
+      .mq-wrap:hover .photo-card:hover .meta {
+        transform: translateY(-4px);
+      }
+    }
+
+    /* Rich gradient overlay — heavier at bottom */
+    .photo-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(0,0,0,0.35) 70%,
+        rgba(0,0,0,0.65) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Skeleton while image loads */
+    .photo-card .img-wrap {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #C8ECEC 0%, #A8DEDE 100%);
+    }
+
+    .surface-card {
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 30px 60px -25px rgba(10,14,26,0.15);
+    }
+
+    #tweaks-panel { display: none; }
+    #tweaks-panel.open { display: block; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mq-track { animation: none !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .animate-float-slow, .animate-float-slower { animation: none; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900 overflow-x-hidden selection:bg-brand-cyan selection:text-white">
 
-    <!-- Background layers -->
-    <div class="fixed inset-0 bg-landscape z-[-2]"></div>
-    <div class="fixed inset-0 bg-gradient-to-br from-white/90 via-white/80 to-brand-light/90 z-[-1] backdrop-blur-[4px]"></div>
+<body class="overflow-x-hidden">
 
-    <main class="min-h-screen flex flex-col relative">
-        <div id="nav-root"></div>
-        <div id="hero-root"></div>
-        <div id="features-root"></div>
-        <div id="footer-root"></div>
-    </main>
+  <!-- ==================== NAV ==================== -->
+  <nav class="fixed top-0 inset-x-0 z-50 px-5 md:px-10 py-4 backdrop-blur-md bg-mint-50/70 border-b border-cyan-500/10">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <img src="assets/pin.png" alt="Yoinn" width="40" height="40"
+          class="w-9 h-9 md:w-10 md:h-10 transition-transform group-hover:scale-110" />
+        <span class="text-2xl md:text-[26px] font-black tracking-tight text-cyan-500"
+          style="letter-spacing:-0.04em">Yoinn</span>
+      </a>
+      <div class="flex items-center gap-2 md:gap-3">
+        <div class="lang-toggle hidden sm:inline-flex" id="lang-toggle">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+        </div>
+        <a href="#download"
+          class="px-5 md:px-6 py-2.5 rounded-full text-white text-sm md:text-[15px] font-bold btn-cyan"
+          data-i18n="nav.cta">Descargar</a>
+      </div>
+    </div>
+  </nav>
 
-    <script type="module" src="js/app.js"></script>
+  <!-- ==================== HERO ==================== -->
+  <section id="top" class="relative pt-28 md:pt-32 pb-20 md:pb-32 overflow-hidden">
+    <div class="absolute inset-x-0 -bottom-10 md:-bottom-20 flex justify-center pointer-events-none">
+      <span class="watermark">YOINN</span>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-5 md:px-10 grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 relative z-10">
+        <div class="flex items-center gap-2 mb-6 reveal in" id="live-pill">
+          <span class="relative flex w-2.5 h-2.5">
+            <span class="absolute inset-0 rounded-full bg-cyan-500 animate-pulse-soft"></span>
+            <span class="relative w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
+          </span>
+          <span class="eyebrow text-cyan-700" data-i18n="hero.live">📍 Hay yoinns activos cerca de ti</span>
+        </div>
+
+        <h1 class="display text-[clamp(56px,11vw,148px)] mb-7 reveal in delay-1">
+          <span data-i18n="hero.title.l1">¿Hoy qué</span><br />
+          <span class="text-grad-cyan" data-i18n="hero.title.l2">hacemos?</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl lg:text-[28px] text-ink-700 max-w-2xl mb-10 leading-snug reveal in delay-2 font-medium"
+          data-i18n="hero.sub">
+          La app que te saca de la pantalla.<br class="hidden md:block" /> Actividades reales, gente real, cerca de ti.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 reveal in delay-3" id="download">
+          <a href="https://apps.apple.com/app/id6756730755"
+            class="group flex items-center gap-3 bg-ink-900 text-white pl-5 pr-7 py-3.5 rounded-2xl hover:bg-ink-800 transition"
+            aria-label="Descargar en App Store">
+            <svg viewBox="0 0 24 24" class="w-7 h-7" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <div class="text-left leading-tight">
+              <div class="text-[10px] opacity-70 font-medium" data-i18n="store.apple.sub">Download on the</div>
+              <div class="text-lg font-bold">App Store</div>
+            </div>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=cl.yoinn.social"
+            class="group flex items-center gap-3 bg-ink-900 text-white pl-5 pr-7 py-3.5 rounded-2xl hover:bg-ink-800 transition"
+            aria-label="Descargar en Google Play">
+            <svg viewBox="0 0 24 24" class="w-7 h-7" fill="currentColor" aria-hidden="true">
+              <path d="M3.6 1.6c-.4.3-.6.7-.6 1.3v18.2c0 .6.2 1 .6 1.3l10.7-10.4L3.6 1.6m12.1 11.7l2.6 2.5-12.4 7c-.4.2-.8.2-1.2 0l11-9.5m0-2.6L4.7.6c.4-.2.8-.2 1.2 0l12.4 7-2.6 2.5M19.4 8.7l3.4 1.9c.5.3.7.7.7 1.4 0 .7-.2 1.1-.7 1.4l-3.4 1.9-2.8-2.7 2.8-2.7" />
+            </svg>
+            <div class="text-left leading-tight">
+              <div class="text-[10px] opacity-70 font-medium" data-i18n="store.google.sub">Get it on</div>
+              <div class="text-lg font-bold">Google Play</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="mt-10 flex items-center gap-5 reveal in delay-3 text-sm text-ink-600">
+          <div class="flex -space-x-2" aria-hidden="true">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-700 border-2 border-mint-50"></div>
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-coral-500 border-2 border-mint-50"></div>
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-mint-50"></div>
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 border-2 border-mint-50"></div>
+          </div>
+          <span class="font-semibold" data-i18n="hero.proof">+12.000 yoinners · 4.8★ App Store</span>
+        </div>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="lg:col-span-5 relative reveal in delay-2">
+        <div class="relative max-w-[320px] md:max-w-[360px] mx-auto">
+          <div class="phone-frame animate-float-slow">
+            <img src="assets/screen-feed-1.png" alt="Yoinn app feed"
+              fetchpriority="high" decoding="async" width="360" height="780" />
+          </div>
+
+          <div class="float-badge animate-float-slower" style="top:8%;left:-10%;">
+            <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse-soft"></span>
+            <span data-i18n="hero.float1">Sunset · ahora</span>
+          </div>
+          <div class="float-badge animate-float-slow" style="top:42%;right:-16%;padding:12px 16px;">
+            <img src="assets/pin-golden.png" class="w-7 h-7" alt="" loading="lazy" decoding="async" width="28" height="28" />
+            <div class="leading-tight">
+              <div class="text-[10px] text-ink-600 font-medium" data-i18n="hero.float2.label">Verificado</div>
+              <div class="text-sm font-bold">Miguel</div>
+            </div>
+          </div>
+          <div class="float-badge animate-float-slower" style="bottom:8%;left:-8%;padding:10px 14px;">
+            <span class="text-base" aria-hidden="true">🔥</span>
+            <span class="text-coral-500" data-i18n="hero.float3">Solo 3 cupos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MANIFIESTO ==================== -->
+  <section class="relative py-24 md:py-36 overflow-hidden">
+    <div class="relative max-w-3xl mx-auto px-6">
+      <p class="eyebrow text-cyan-700 mb-6 reveal" data-i18n="manifesto.eyebrow">El manifiesto</p>
+      <h2 class="display-md text-[clamp(40px,7vw,84px)] mb-12 reveal delay-1">
+        <span data-i18n="manifesto.title.l1">1.847 contactos.</span><br />
+        <span data-i18n="manifesto.title.l2">Cero planes para hoy.</span><br />
+        <span class="text-grad-cyan" data-i18n="manifesto.title.l3">Algo se rompió.</span>
+      </h2>
+      <div class="space-y-6 text-xl md:text-2xl text-ink-700 leading-relaxed font-medium reveal delay-2"
+        data-i18n-html="manifesto.body">
+        <p>Vivimos en la era más conectada de la historia, y nunca habíamos estado tan solos. La soledad ya no es un
+          sentimiento — es una <strong>epidemia de salud</strong>.</p>
+        <p>Yoinn no es otra app que vives mirando.<br />Es una <strong>herramienta para salir de la pantalla</strong> y
+          volver a la calle, al café, a la cancha, al cerro.</p>
+        <p class="text-cyan-700 font-bold text-2xl md:text-3xl">Es el antídoto contra la soledad moderna.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CATEGORÍAS MARQUEE ==================== -->
+  <section class="py-16 md:py-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 mb-10">
+      <p class="eyebrow text-cyan-700 mb-3 reveal" data-i18n="cat.eyebrow">Está pasando</p>
+      <h2 class="display-md text-[clamp(32px,5vw,60px)] reveal delay-1" data-i18n="cat.title">Todo a la vuelta de la esquina.</h2>
+    </div>
+    <!-- Pills row — WAAPI-driven via MarqueeController -->
+    <div class="mq-wrap" aria-hidden="true">
+      <div class="mq-track" id="pills-track">
+        <span class="cat-pill bg-ink-900 text-white">🏓 Pádel</span>
+        <span class="cat-pill bg-cyan-500 text-white">🌅 Sunset</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">🥩 Asado</span>
+        <span class="cat-pill bg-ink-900 text-white">🏔️ Trekking</span>
+        <span class="cat-pill bg-coral-500 text-white">🎬 Cine</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">☕ Café</span>
+        <span class="cat-pill bg-cyan-500 text-white">🎨 Pintar</span>
+        <span class="cat-pill bg-ink-900 text-white">🧘 Yoga</span>
+        <span class="cat-pill bg-gold-400 text-ink-900">🎉 Carrete</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">🏄 Surf</span>
+        <span class="cat-pill bg-cyan-500 text-white">⚽ Fútbol</span>
+        <span class="cat-pill bg-ink-900 text-white">🎸 Tocata</span>
+        <!-- clone for seamless loop -->
+        <span class="cat-pill bg-ink-900 text-white">🏓 Pádel</span>
+        <span class="cat-pill bg-cyan-500 text-white">🌅 Sunset</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">🥩 Asado</span>
+        <span class="cat-pill bg-ink-900 text-white">🏔️ Trekking</span>
+        <span class="cat-pill bg-coral-500 text-white">🎬 Cine</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">☕ Café</span>
+        <span class="cat-pill bg-cyan-500 text-white">🎨 Pintar</span>
+        <span class="cat-pill bg-ink-900 text-white">🧘 Yoga</span>
+        <span class="cat-pill bg-gold-400 text-ink-900">🎉 Carrete</span>
+        <span class="cat-pill bg-white text-ink-900 border-2 border-ink-900">🏄 Surf</span>
+        <span class="cat-pill bg-cyan-500 text-white">⚽ Fútbol</span>
+        <span class="cat-pill bg-ink-900 text-white">🎸 Tocata</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CÓMO FUNCIONA ==================== -->
+  <section class="relative py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-10">
+      <div class="max-w-3xl mb-16 md:mb-24">
+        <p class="eyebrow text-cyan-700 mb-4 reveal" data-i18n="how.eyebrow">Cómo funciona</p>
+        <h2 class="display-md text-[clamp(36px,6vw,72px)] reveal delay-1">
+          <span data-i18n="how.title.l1">Tres pasos.</span><br />
+          <span class="text-grad-cyan" data-i18n="how.title.l2">Cero fricción.</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-12 md:gap-8">
+        <div class="reveal">
+          <div class="step-num mb-4">01</div>
+          <div class="phone-frame max-w-[280px] mb-6">
+            <img src="assets/screen-feed-2.png" alt="" loading="lazy" decoding="async" width="280" height="560" />
+          </div>
+          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s1.title">Explora.</h3>
+          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s1.body">Descubre lo que está
+            pasando hoy a 500 metros de ti. Sunset en la playa, pádel un martes, café de especialidad.</p>
+        </div>
+        <div class="reveal delay-1 md:mt-16">
+          <div class="step-num mb-4">02</div>
+          <div class="phone-frame max-w-[280px] mb-6">
+            <img src="assets/screen-map-region.png" alt="" loading="lazy" decoding="async" width="280" height="560" />
+          </div>
+          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s2.title">Descubre.</h3>
+          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s2.body">Ábre el mapa y mira
+            tu ciudad llena de yoinns. Filtra por categoría, distancia o fecha. Únete con un tap.</p>
+        </div>
+        <div class="reveal delay-2 md:mt-32">
+          <div class="step-num mb-4">03</div>
+          <div class="phone-frame max-w-[280px] mb-6">
+            <img src="assets/screen-create.png" alt="" loading="lazy" decoding="async" width="280" height="560" />
+          </div>
+          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s3.title">Crea.</h3>
+          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s3.body">¿Quieres armar tu
+            propio plan? Publica un yoinn en 30 segundos. La gente correcta llega sola.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY (Panoramas) ==================== -->
+  <section class="relative py-20 md:py-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 mb-12">
+      <p class="eyebrow text-cyan-700 mb-3 reveal" data-i18n="gallery.eyebrow">La comunidad</p>
+      <h2 class="display-md text-[clamp(36px,6vw,72px)] reveal delay-1">
+        <span data-i18n="gallery.title.l1">Personas reales.</span><br />
+        <span class="text-grad-cyan" data-i18n="gallery.title.l2">Momentos reales.</span>
+      </h2>
+    </div>
+
+    <!-- Top row → WAAPI rtl -->
+    <div class="mq-wrap mb-6" id="gallery-top-wrap">
+      <div class="mq-track" id="gallery-top-track"></div>
+    </div>
+
+    <!-- Bottom row → WAAPI ltr -->
+    <div class="mq-wrap" id="gallery-bot-wrap">
+      <div class="mq-track" id="gallery-bot-track"></div>
+    </div>
+
+    <p class="text-center text-sm text-ink-500 mt-10 font-medium" data-i18n="gallery.note">Las fotos reales de los
+      yoinners se cargarán pronto.</p>
+  </section>
+
+  <!-- ==================== COMUNIDAD REAL ==================== -->
+  <section class="relative py-24 md:py-36 overflow-hidden">
+    <div class="relative max-w-6xl mx-auto px-5 md:px-10">
+      <div class="max-w-3xl mb-16 reveal">
+        <p class="eyebrow text-cyan-700 mb-4" data-i18n="comm.eyebrow">Comunidad real</p>
+        <h2 class="display-md text-[clamp(36px,6vw,72px)] mb-6">
+          <span data-i18n="comm.title.l1">No es Tinder.</span><br />
+          <span data-i18n="comm.title.l2">No es Eventbrite.</span><br />
+          <span class="text-grad-cyan" data-i18n="comm.title.l3">Es comunidad verificada.</span>
+        </h2>
+        <p class="text-xl text-ink-600 max-w-xl font-medium leading-snug" data-i18n="comm.sub">Dos niveles de
+          verificación para que sepas con quién te estás juntando antes de salir de tu casa.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+        <div class="surface-card rounded-3xl p-8 md:p-10 reveal">
+          <img src="assets/pin-blue.png" alt="" class="w-20 h-20 mb-6" loading="lazy" decoding="async" width="80" height="80" />
+          <h3 class="text-2xl md:text-3xl font-black mb-2 text-ink-900" style="letter-spacing:-0.03em"
+            data-i18n="comm.card1.title">Verificado azul</h3>
+          <p class="text-ink-600 font-medium leading-snug" data-i18n="comm.card1.body">Personas reales con teléfono y
+            email confirmados. Sin perfiles falsos, sin bots, sin sorpresas.</p>
+        </div>
+        <div class="surface-card rounded-3xl p-8 md:p-10 reveal delay-1"
+          style="background:linear-gradient(135deg,rgba(232,182,90,0.18),rgba(255,217,59,0.10));border-color:rgba(232,182,90,0.35)">
+          <img src="assets/pin-golden.png" alt="" class="w-20 h-20 mb-6" loading="lazy" decoding="async" width="80" height="80" />
+          <h3 class="text-2xl md:text-3xl font-black mb-2 text-ink-900" style="letter-spacing:-0.03em"
+            data-i18n="comm.card2.title">Verificado dorado</h3>
+          <p class="text-ink-600 font-medium leading-snug" data-i18n="comm.card2.body">Organizaciones, marcas y
+            anfitriones premium revisados por el equipo Yoinn. Si ves dorado, es de fiar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATS ==================== -->
+  <section class="py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-3 gap-12 md:gap-8">
+        <div class="reveal">
+          <div class="display text-[clamp(72px,11vw,140px)] text-grad-cyan mb-2">+12K</div>
+          <div class="text-lg font-bold text-ink-700" data-i18n="stats.s1">Yoinners en Chile</div>
+        </div>
+        <div class="reveal delay-1">
+          <div class="display text-[clamp(72px,11vw,140px)] text-grad-cyan mb-2">850</div>
+          <div class="text-lg font-bold text-ink-700" data-i18n="stats.s2">Planes cada semana</div>
+        </div>
+        <div class="reveal delay-2">
+          <div class="display text-[clamp(72px,11vw,140px)] text-grad-cyan mb-2">4.8★</div>
+          <div class="text-lg font-bold text-ink-700" data-i18n="stats.s3">App Store rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA FINAL ==================== -->
+  <section class="relative py-28 md:py-40 overflow-hidden">
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <img src="assets/pin.png" class="mx-auto w-32 md:w-44 mb-10 animate-float-slow" alt=""
+        loading="lazy" decoding="async" width="176" height="176" />
+      <h2 class="display text-[clamp(48px,9vw,120px)] mb-8 reveal">
+        <span data-i18n="final.title.l1">Tu ciudad</span><br />
+        <span class="text-grad-cyan" data-i18n="final.title.l2">te está esperando.</span>
+      </h2>
+      <p class="text-xl md:text-2xl text-ink-600 mb-12 font-medium leading-snug reveal delay-1" data-i18n="final.sub">
+        Descarga gratis. Sal hoy mismo.</p>
+      <div class="flex flex-wrap items-center justify-center gap-4 reveal delay-2">
+        <a href="https://apps.apple.com/app/id6756730755"
+          class="flex items-center gap-3 bg-ink-900 text-white pl-5 pr-7 py-4 rounded-2xl hover:bg-ink-800 transition"
+          aria-label="Descargar en App Store">
+          <svg viewBox="0 0 24 24" class="w-7 h-7" fill="currentColor" aria-hidden="true">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+          </svg>
+          <div class="text-left leading-tight">
+            <div class="text-[10px] opacity-70 font-medium" data-i18n="store.apple.sub">Download on the</div>
+            <div class="text-lg font-bold">App Store</div>
+          </div>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=cl.yoinn.social"
+          class="flex items-center gap-3 bg-ink-900 text-white pl-5 pr-7 py-4 rounded-2xl hover:bg-ink-800 transition"
+          aria-label="Descargar en Google Play">
+          <svg viewBox="0 0 24 24" class="w-7 h-7" fill="currentColor" aria-hidden="true">
+            <path d="M3.6 1.6c-.4.3-.6.7-.6 1.3v18.2c0 .6.2 1 .6 1.3l10.7-10.4L3.6 1.6m12.1 11.7l2.6 2.5-12.4 7c-.4.2-.8.2-1.2 0l11-9.5m0-2.6L4.7.6c.4-.2.8-.2 1.2 0l12.4 7-2.6 2.5M19.4 8.7l3.4 1.9c.5.3.7.7.7 1.4 0 .7-.2 1.1-.7 1.4l-3.4 1.9-2.8-2.7 2.8-2.7" />
+          </svg>
+          <div class="text-left leading-tight">
+            <div class="text-[10px] opacity-70 font-medium" data-i18n="store.google.sub">Get it on</div>
+            <div class="text-lg font-bold">Google Play</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="border-t border-cyan-500/15 py-14 md:py-16">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 text-center">
+      <div class="flex flex-col items-center gap-3 mb-8">
+        <img src="assets/pin.png" alt="" class="w-14 h-14" loading="lazy" decoding="async" width="56" height="56" />
+        <span class="text-3xl font-black tracking-tight text-cyan-500" style="letter-spacing:-0.04em">Yoinn</span>
+        <p class="text-ink-600 max-w-md text-sm font-medium" data-i18n="footer.tag">El antídoto contra la soledad
+          moderna. Hecho en Chile 🇨🇱</p>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm font-semibold mb-8">
+        <a href="privacy.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.privacy">Privacidad</a>
+        <a href="terms.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.terms">Términos</a>
+        <a href="safety.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.safety">Seguridad infantil</a>
+        <a href="mailto:letsgo@yoinn.cl" class="text-ink-600 hover:text-ink-900 transition">letsgo@yoinn.cl</a>
+        <a href="https://instagram.com/yoinn.cl" class="text-ink-600 hover:text-ink-900 transition" rel="noopener">Instagram</a>
+        <a href="https://tiktok.com/@yoinn.cl" class="text-ink-600 hover:text-ink-900 transition" rel="noopener">TikTok</a>
+      </div>
+      <div class="flex items-center justify-center gap-6 text-xs text-ink-500 border-t border-cyan-500/10 pt-6">
+        <span>© 2026 Yoinn App · yoinn.cl</span>
+        <div class="lang-toggle" id="lang-toggle-footer">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== TWEAKS PANEL ==================== -->
+  <div id="tweaks-panel"
+    class="fixed bottom-6 right-6 z-[100] w-80 bg-white rounded-2xl shadow-2xl border border-ink-900/10 overflow-hidden">
+    <div class="px-5 py-4 bg-ink-900 text-white flex items-center justify-between">
+      <span class="font-black text-lg">Tweaks</span>
+      <button id="tweaks-close" class="opacity-60 hover:opacity-100 text-xl leading-none" aria-label="Cerrar panel">×</button>
+    </div>
+    <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto">
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-ink-600 mb-2" for="tweak-hero">Hero claim</label>
+        <select id="tweak-hero" class="w-full px-3 py-2 rounded-lg border border-ink-900/15 bg-mint-50 text-sm font-semibold">
+          <option value="default">¿Hoy qué hacemos?</option>
+          <option value="alt1">El plan ya empezó. Y tú, en el sillón.</option>
+          <option value="alt2">Tu ciudad está pasando algo ahora mismo.</option>
+          <option value="alt3">Sal de la pantalla. Vuelve a la calle.</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-ink-600 mb-2">Idioma forzado</label>
+        <div class="flex gap-2">
+          <button class="lang-btn flex-1 px-3 py-2 rounded-lg bg-cyan-500 text-white text-sm font-bold" data-lang="es">ES</button>
+          <button class="lang-btn flex-1 px-3 py-2 rounded-lg bg-mint-100 text-ink-700 text-sm font-bold" data-lang="en">EN</button>
+          <button class="lang-btn flex-1 px-3 py-2 rounded-lg bg-mint-100 text-ink-700 text-sm font-bold" data-lang="auto">Auto</button>
+        </div>
+      </div>
+      <div>
+        <label class="flex items-center justify-between text-sm font-semibold">
+          <span>Live counter en hero</span>
+          <input type="checkbox" id="tweak-live" checked class="w-5 h-5 accent-cyan-500" />
+        </label>
+      </div>
+      <div>
+        <label class="flex items-center justify-between text-sm font-semibold">
+          <span>Watermark "YOINN"</span>
+          <input type="checkbox" id="tweak-watermark" checked class="w-5 h-5 accent-cyan-500" />
+        </label>
+      </div>
+      <div>
+        <label class="flex items-center justify-between text-sm font-semibold">
+          <span>Pin pattern de fondo</span>
+          <input type="checkbox" id="tweak-pattern" checked class="w-5 h-5 accent-cyan-500" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+    /* ── i18n dictionary ─────────────────────────────── */
+    const I18N = {
+      es: {
+        'nav.cta': 'Descargar',
+        'store.apple.sub': 'Download on the',
+        'store.google.sub': 'Get it on',
+        'hero.live': '📍 Hay yoinns activos cerca de ti',
+        'hero.title.l1': '¿Hoy qué',
+        'hero.title.l2': 'hacemos?',
+        'hero.sub': 'La app que te saca de la pantalla.<br class="hidden md:block"/> Actividades reales, gente real, cerca de ti.',
+        'hero.proof': '+12.000 yoinners · 4.8★ App Store',
+        'hero.float1': 'Sunset · ahora',
+        'hero.float2.label': 'Verificado',
+        'hero.float3': 'Solo 3 cupos',
+        'manifesto.eyebrow': 'El manifiesto',
+        'manifesto.title.l1': '1.847 contactos.',
+        'manifesto.title.l2': 'Cero planes para hoy.',
+        'manifesto.title.l3': 'Algo se rompió.',
+        'manifesto.body': '<p>Vivimos en la era más conectada de la historia, y nunca habíamos estado tan solos. La soledad ya no es un sentimiento — es una <strong>epidemia de salud</strong>.</p><p>Yoinn no es otra app que vives mirando.<br/>Es una <strong>herramienta para salir de la pantalla</strong> y volver a la calle, al café, a la cancha, al cerro.</p><p class="text-cyan-700 font-bold text-2xl md:text-3xl">Es el antídoto contra la soledad moderna.</p>',
+        'cat.eyebrow': 'Está pasando',
+        'cat.title': 'Todo. Y a la vuelta de la esquina.',
+        'how.eyebrow': 'Cómo funciona',
+        'how.title.l1': 'Tres pasos.',
+        'how.title.l2': 'Cero fricción.',
+        'how.s1.title': 'Explora.',
+        'how.s1.body': 'Descubre lo que está pasando hoy a 500 metros de ti. Sunset en la playa, pádel un martes, café de especialidad.',
+        'how.s2.title': 'Descubre.',
+        'how.s2.body': 'Ábre el mapa y mira tu ciudad llena de yoinns. Filtra por categoría, distancia o fecha. Únete con un tap.',
+        'how.s3.title': 'Crea.',
+        'how.s3.body': '¿Quieres armar tu propio plan? Publica un yoinn en 30 segundos. La gente correcta llega sola.',
+        'gallery.eyebrow': 'La comunidad',
+        'gallery.title.l1': 'Personas reales.',
+        'gallery.title.l2': 'Momentos reales.',
+        'gallery.note': 'Las fotos reales de los yoinners se cargarán pronto.',
+        'gallery.c.sunset':   'Sunset · Maitencillo',
+        'gallery.c.padel':    'Pádel · Las Condes',
+        'gallery.c.asado':    'Asado · Ñuñoa',
+        'gallery.c.trekking': 'Trekking · Cajón del Maipo',
+        'gallery.c.cafe':     'Café · Lastarria',
+        'gallery.c.tocata':   'Tocata · Bellavista',
+        'gallery.c.surf':     'Surf · Pichilemu',
+        'gallery.c.yoga':     'Yoga · Parque Bicentenario',
+        'gallery.c.cine':     'Cine · Providencia',
+        'gallery.c.pintar':   'Pintar · Bellas Artes',
+        'gallery.c.bici':     'Bici · Mapocho',
+        'gallery.c.snow':     'Snow · Volcán Osorno',
+        'comm.eyebrow': 'Comunidad real',
+        'comm.title.l1': 'No es Tinder.',
+        'comm.title.l2': 'No es Eventbrite.',
+        'comm.title.l3': 'Es comunidad verificada.',
+        'comm.sub': 'Dos niveles de verificación para que sepas con quién te estás juntando antes de salir de tu casa.',
+        'comm.card1.title': 'Verificado azul',
+        'comm.card1.body': 'Personas reales con teléfono y email confirmados. Sin perfiles falsos, sin bots, sin sorpresas.',
+        'comm.card2.title': 'Verificado dorado',
+        'comm.card2.body': 'Organizaciones, marcas y anfitriones premium revisados por el equipo Yoinn. Si ves dorado, es de fiar.',
+        'stats.s1': 'Yoinners en Chile',
+        'stats.s2': 'Planes cada semana',
+        'stats.s3': 'App Store rating',
+        'final.title.l1': 'Tu ciudad',
+        'final.title.l2': 'te está esperando.',
+        'final.sub': 'Descarga gratis. Sal hoy mismo.',
+        'footer.tag': 'El antídoto contra la soledad moderna. Hecho en Chile 🇨🇱',
+        'footer.privacy': 'Privacidad',
+        'footer.terms': 'Términos',
+        'footer.safety': 'Seguridad infantil'
+      },
+      en: {
+        'nav.cta': 'Download',
+        'store.apple.sub': 'Download on the',
+        'store.google.sub': 'Get it on',
+        'hero.live': '📍 Yoinns are happening near you',
+        'hero.title.l1': "What's on",
+        'hero.title.l2': 'today?',
+        'hero.sub': 'The app that gets you off the screen.<br class="hidden md:block"/> Real activities, real people, near you.',
+        'hero.proof': '+12,000 yoinners · 4.8★ App Store',
+        'hero.float1': 'Sunset · now',
+        'hero.float2.label': 'Verified',
+        'hero.float3': 'Only 3 spots',
+        'manifesto.eyebrow': 'The manifesto',
+        'manifesto.title.l1': '1,847 contacts.',
+        'manifesto.title.l2': 'Zero plans for today.',
+        'manifesto.title.l3': 'Something broke.',
+        'manifesto.body': '<p>We live in the most connected era in history, and we have never been this lonely. Loneliness is no longer a feeling — it is a <strong>health epidemic</strong>.</p><p>Yoinn is not another app you live staring at.<br/>It is a <strong>tool to get off the screen</strong> and go back to the street, the café, the court, the mountain.</p><p class="text-cyan-700 font-bold text-2xl md:text-3xl">It is the antidote to modern loneliness.</p>',
+        'cat.eyebrow': "What's happening",
+        'cat.title': 'Everything. And right around the corner.',
+        'how.eyebrow': 'How it works',
+        'how.title.l1': 'Three steps.',
+        'how.title.l2': 'Zero friction.',
+        'how.s1.title': 'Explore.',
+        'how.s1.body': "Discover what's happening today, 500 meters from you. Sunset at the beach, padel on a Tuesday, specialty coffee.",
+        'how.s2.title': 'Discover.',
+        'how.s2.body': 'Open the map and see your city full of yoinns. Filter by category, distance or date. Join with one tap.',
+        'how.s3.title': 'Create.',
+        'how.s3.body': 'Want to throw your own plan? Post a yoinn in 30 seconds. The right people show up.',
+        'gallery.eyebrow': 'The community',
+        'gallery.title.l1': 'Real people.',
+        'gallery.title.l2': 'Real moments.',
+        'gallery.note': "Real yoinners' photos coming soon.",
+        'gallery.c.sunset':   'Sunset · Maitencillo',
+        'gallery.c.padel':    'Padel · Las Condes',
+        'gallery.c.asado':    'BBQ · Ñuñoa',
+        'gallery.c.trekking': 'Hiking · Cajón del Maipo',
+        'gallery.c.cafe':     'Coffee · Lastarria',
+        'gallery.c.tocata':   'Live Music · Bellavista',
+        'gallery.c.surf':     'Surfing · Pichilemu',
+        'gallery.c.yoga':     'Yoga · Bicentennial Park',
+        'gallery.c.cine':     'Cinema · Providencia',
+        'gallery.c.pintar':   'Painting · Bellas Artes',
+        'gallery.c.bici':     'Cycling · Mapocho',
+        'gallery.c.snow':     'Snowboard · Volcán Osorno',
+        'comm.eyebrow': 'Real community',
+        'comm.title.l1': "It's not Tinder.",
+        'comm.title.l2': "It's not Eventbrite.",
+        'comm.title.l3': "It's a verified community.",
+        'comm.sub': "Two verification tiers so you know who you're meeting before you leave your house.",
+        'comm.card1.title': 'Blue verified',
+        'comm.card1.body': 'Real people with confirmed phone and email. No fake profiles, no bots, no surprises.',
+        'comm.card2.title': 'Gold verified',
+        'comm.card2.body': "Organizations, brands and premium hosts reviewed by the Yoinn team. If it's gold, it's legit.",
+        'stats.s1': 'Yoinners in Chile',
+        'stats.s2': 'Plans every week',
+        'stats.s3': 'App Store rating',
+        'final.title.l1': 'Your city',
+        'final.title.l2': 'is waiting for you.',
+        'final.sub': 'Download free. Go out today.',
+        'footer.tag': 'The antidote to modern loneliness. Made in Chile 🇨🇱',
+        'footer.privacy': 'Privacy',
+        'footer.terms': 'Terms',
+        'footer.safety': 'Child safety'
+      }
+    };
+
+    /* ── Gallery card data ───────────────────────────── */
+    const GALLERY_TOP = [
+      { key: 'gallery.c.sunset',   img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.padel',    img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.asado',    img: 'https://images.unsplash.com/photo-1555396273-a97929f706c0?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.trekking', img: 'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.cafe',     img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.tocata',   img: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&h=800&q=75' },
+    ];
+
+    const GALLERY_BOT = [
+      { key: 'gallery.c.surf',   img: 'https://images.unsplash.com/photo-1502680390469-be75c86b66b2?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.yoga',   img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.cine',   img: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.pintar', img: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.bici',   img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.snow',   img: 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=600&h=800&q=75' },
+    ];
+
+    /* ── Hero variants ───────────────────────────────── */
+    const HERO_VARIANTS = {
+      es: {
+        default: { l1: '¿Hoy qué', l2: 'hacemos?' },
+        alt1: { l1: 'El plan ya empezó.', l2: 'Y tú, en el sillón.' },
+        alt2: { l1: 'Tu ciudad está pasando', l2: 'algo ahora mismo.' },
+        alt3: { l1: 'Sal de la pantalla.', l2: 'Vuelve a la calle.' }
+      },
+      en: {
+        default: { l1: "What's on", l2: 'today?' },
+        alt1: { l1: 'The plan has started.', l2: 'And you, on the couch.' },
+        alt2: { l1: 'Your city is doing', l2: 'something right now.' },
+        alt3: { l1: 'Get off the screen.', l2: 'Get back outside.' }
+      }
+    };
+
+    let currentLang = 'es';
+    let currentHeroVariant = 'default';
+
+    function detectLang() {
+      const stored = localStorage.getItem('yoinn-lang');
+      if (stored && stored !== 'auto') return stored;
+      return (navigator.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
+    }
+
+    function applyLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      const dict = I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = dict[el.getAttribute('data-i18n')];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const v = dict[el.getAttribute('data-i18n-html')];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      applyHeroVariant(currentHeroVariant);
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+      });
+    }
+
+    function applyHeroVariant(variant) {
+      currentHeroVariant = variant;
+      const v = HERO_VARIANTS[currentLang][variant];
+      if (!v) return;
+      const l1 = document.querySelector('[data-i18n="hero.title.l1"]');
+      const l2 = document.querySelector('[data-i18n="hero.title.l2"]');
+      if (l1) l1.textContent = v.l1;
+      if (l2) l2.textContent = v.l2;
+    }
+
+    /* ── MarqueeController (WAAPI) ───────────────────────
+       Uses Web Animations API for pixel-accurate seamless loops.
+       • Cancels previous animation before re-init (safe on rebuild).
+       • double-rAF ensures layout is flushed before measuring scrollWidth.
+       • Hover pause/resume via WeakSet-guarded listeners (no duplicate adds).
+       • Falls back to CSS keyframes (mq-rtl/mq-ltr) if WAAPI unavailable.
+    ─────────────────────────────────────────────────── */
+    const MarqueeController = (() => {
+      const anims  = new WeakMap(); // trackEl → Animation
+      const hooked = new WeakSet(); // wrap → bool (listener installed)
+
+      function init(trackEl, { duration = 40, direction = 'rtl' } = {}) {
+        // Abort previous WAAPI animation so measurement is clean
+        anims.get(trackEl)?.cancel();
+
+        // Mark direction for CSS fallback
+        trackEl.dataset.dir = direction;
+
+        const wrap = trackEl.closest('.mq-wrap');
+
+        // Double rAF: first tick applies DOM, second tick measures
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          // scrollWidth = total flex content; half = one duplicate set
+          const half = trackEl.scrollWidth / 2;
+          if (!half) return;
+
+          // Pixel-exact keyframes — no %-based jitter
+          const from = direction === 'ltr' ? -half : 0;
+          const to   = direction === 'ltr' ? 0 : -half;
+
+          const anim = trackEl.animate(
+            [
+              { transform: `translate3d(${from}px, 0, 0)` },
+              { transform: `translate3d(${to}px, 0, 0)` },
+            ],
+            {
+              duration: duration * 1000,
+              iterations: Infinity,
+              easing: 'linear',
+              // composite: 'replace' is the default — no stacking issues
+            }
+          );
+
+          anims.set(trackEl, anim);
+
+          // Install hover listeners once per wrap (survives track rebuilds
+          // because anims.get(trackEl) is always up-to-date)
+          if (wrap && !hooked.has(wrap)) {
+            hooked.add(wrap);
+            wrap.addEventListener('mouseenter', () => {
+              anims.get(trackEl)?.pause();
+            }, { passive: true });
+            wrap.addEventListener('mouseleave', () => {
+              anims.get(trackEl)?.play();
+            }, { passive: true });
+          }
+        }));
+      }
+
+      return { init };
+    })();
+
+    /* ── Build gallery card DOM ──────────────────────── */
+    function buildCard(item, lang, isClone) {
+      const label = I18N[lang][item.key] || item.key;
+      const card = document.createElement('div');
+      card.className = 'photo-card';
+      if (isClone) card.setAttribute('aria-hidden', 'true');
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'img-wrap';
+
+      const img = document.createElement('img');
+      img.src = item.img;
+      img.alt = isClone ? '' : label;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.width = 600;
+      img.height = 800;
+      imgWrap.appendChild(img);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.setAttribute('data-i18n', item.key);
+      meta.textContent = label;
+
+      card.appendChild(imgWrap);
+      card.appendChild(meta);
+      return card;
+    }
+
+    /* Build track content + kick off WAAPI marquee */
+    function buildTrack(trackEl, cards, lang, mqOpts) {
+      trackEl.innerHTML = '';
+      // Two passes: originals + clones → total width = 2× one-set width
+      [false, true].forEach(isClone => {
+        cards.forEach(item => trackEl.appendChild(buildCard(item, lang, isClone)));
+      });
+      MarqueeController.init(trackEl, mqOpts);
+    }
+
+    /* ── Init ────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      const gTop = document.getElementById('gallery-top-track');
+      const gBot = document.getElementById('gallery-bot-track');
+      const lang = detectLang();
+
+      // Build gallery before applyLang so data-i18n elements are in DOM
+      buildTrack(gTop, GALLERY_TOP, lang, { duration: 42, direction: 'rtl' });
+      buildTrack(gBot, GALLERY_BOT, lang, { duration: 55, direction: 'ltr' });
+
+      // Pills — CSS fallback already active; WAAPI overrides for precision
+      MarqueeController.init(document.getElementById('pills-track'), { duration: 32, direction: 'rtl' });
+
+      applyLang(lang);
+
+      /* Centralised lang-change helper (called by all toggles) */
+      function changeLang(l) {
+        localStorage.setItem('yoinn-lang', l);
+        applyLang(l);
+        // Rebuild cards with new labels, re-init marquees
+        buildTrack(gTop, GALLERY_TOP, l, { duration: 42, direction: 'rtl' });
+        buildTrack(gBot, GALLERY_BOT, l, { duration: 55, direction: 'ltr' });
+      }
+
+      // Lang toggles (nav + footer)
+      document.querySelectorAll('.lang-toggle button').forEach(btn => {
+        btn.addEventListener('click', () => changeLang(btn.getAttribute('data-lang')));
+      });
+
+      // Scroll reveal — single shared IntersectionObserver, fires once
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            revealObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+      // Tweaks panel
+      const panel = document.getElementById('tweaks-panel');
+      const closeBtn = document.getElementById('tweaks-close');
+
+      window.addEventListener('message', (e) => {
+        if (!e.data || typeof e.data !== 'object') return;
+        if (e.data.type === '__activate_edit_mode') panel.classList.add('open');
+        if (e.data.type === '__deactivate_edit_mode') panel.classList.remove('open');
+      });
+
+      try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch (_) {}
+
+      closeBtn.addEventListener('click', () => {
+        panel.classList.remove('open');
+        try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch (_) {}
+      });
+
+      document.getElementById('tweak-hero').addEventListener('change', e => applyHeroVariant(e.target.value));
+
+      document.querySelectorAll('#tweaks-panel .lang-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          const l = b.getAttribute('data-lang');
+          document.querySelectorAll('#tweaks-panel .lang-btn').forEach(x => {
+            x.classList.replace('bg-cyan-500', 'bg-mint-100');
+            x.classList.replace('text-white', 'text-ink-700');
+          });
+          b.classList.replace('bg-mint-100', 'bg-cyan-500');
+          b.classList.replace('text-ink-700', 'text-white');
+          changeLang(l === 'auto' ? detectLang() : l);
+        });
+      });
+
+      document.getElementById('tweak-live').addEventListener('change', e => {
+        document.getElementById('live-pill').style.display = e.target.checked ? '' : 'none';
+      });
+
+      document.getElementById('tweak-watermark').addEventListener('change', e => {
+        document.querySelectorAll('.watermark').forEach(w => w.style.display = e.target.checked ? '' : 'none');
+      });
+
+      document.getElementById('tweak-pattern').addEventListener('change', e => {
+        let style = document.getElementById('pattern-toggle-style');
+        if (!style) {
+          style = document.createElement('style');
+          style.id = 'pattern-toggle-style';
+          document.head.appendChild(style);
+        }
+        style.textContent = e.target.checked ? '' : 'body::before{display:none!important}';
+      });
+    });
+  </script>
+  <script type="module" src="js/firebase.js"></script>
 </body>
+
 </html>

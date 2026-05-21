@@ -6,12 +6,12 @@
     <title>Yoinn – Abriendo actividad...</title>
 
     <!-- Open Graph (preview en WhatsApp, iMessage, IG) -->
-    <meta property="og:title" content="Te invitaron a un Yoinn 🎉" />
+    <meta property="og:title"       content="Te invitaron a un Yoinn 🎉" />
     <meta property="og:description" content="Únete a la actividad. Descarga Yoinn para verla." />
-    <meta property="og:image" content="https://yoinn.cl/1.png" />
-    <meta property="og:url" content="https://yoinn.cl" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image"       content="https://www.yoinn.cl/1.png" />
+    <meta property="og:url"         content="https://www.yoinn.cl" />
+    <meta property="og:type"        content="website" />
+    <meta name="twitter:card"       content="summary_large_image" />
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,7 +34,7 @@
             pointer-events: none;
         }
         .blob-1 { width: 350px; height: 350px; background: #00BCD4; top: -80px; left: -80px; }
-        .blob-2 { width: 280px; height: 280px; background: #0097A7; bottom: -60px; right: -60px; }
+        .blob-2 { width: 280px; height: 280px; background: #7B2FBE; bottom: -60px; right: -60px; }
 
         .card {
             position: relative;
@@ -62,7 +62,7 @@
         }
         @keyframes pulse {
             0%, 100% { transform: scale(0.96); }
-            50% { transform: scale(1.04); }
+            50%       { transform: scale(1.04); }
         }
 
         h2 {
@@ -76,9 +76,25 @@
             color: rgba(255,255,255,0.5);
             font-size: 14px;
             font-weight: 500;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             line-height: 1.5;
         }
+
+        /* IAB warning banner */
+        .iab-banner {
+            background: rgba(0,188,212,0.12);
+            border: 1px solid rgba(0,188,212,0.28);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            line-height: 1.55;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left;
+            display: none;
+        }
+        .iab-banner strong { color: #00E5FF; }
 
         .spinner {
             width: 28px; height: 28px;
@@ -110,16 +126,19 @@
             margin-bottom: 10px;
         }
         .btn:active { transform: scale(0.97); opacity: 0.85; }
-        .btn-primary { background: #00BCD4; color: #fff; }
+        .btn-primary  { background: linear-gradient(135deg,#00E5FF,#0097A7); color: #000; }
         .btn-secondary {
-            background: transparent;
-            color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.55);
             font-size: 13px;
             font-weight: 500;
-            padding: 10px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
             margin-bottom: 0;
         }
         .btn-secondary:active { opacity: 0.6; }
+
+        /* Hidden until needed */
         #actions { display: none; width: 100%; }
     </style>
 </head>
@@ -128,7 +147,16 @@
     <div class="blob blob-2"></div>
 
     <div class="card">
-        <img src="/logo.png" alt="Yoinn" class="logo">
+        <img src="/logo.png" alt="Yoinn" class="logo"
+             onerror="this.style.display='none'">
+
+        <!-- IAB warning — shown only in Instagram / Facebook in-app browser -->
+        <div class="iab-banner" id="iab-banner">
+            <strong>Para abrir Yoinn</strong>, toca los <strong>3 puntos ···</strong>
+            arriba y elige <strong>"Abrir en Safari"</strong> o
+            <strong>"Abrir en Chrome"</strong>.
+        </div>
+
         <h2>Te invitaron a un Yoinn</h2>
         <p class="subtitle">Abriendo la app...<br>Si no tienes Yoinn, descárgala gratis.</p>
 
@@ -137,42 +165,64 @@
 
         <div id="actions">
             <a id="store-btn" href="#" class="btn btn-primary">Descargar Yoinn</a>
-            <a id="open-btn" href="#" class="btn btn-secondary">Ya la tengo → Abrir actividad</a>
+            <a id="open-btn"  href="#" class="btn btn-secondary">Ya la tengo → Abrir actividad</a>
         </div>
     </div>
 
     <script>
         (function () {
-            var ua = navigator.userAgent || '';
-            var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            var ua        = navigator.userAgent || '';
+            var isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
             var isAndroid = /android/i.test(ua);
 
-            var androidStore = "https://play.google.com/store/apps/details?id=cl.yoinn.social";
-            var iosStore = "https://apps.apple.com/cl/app/id6756730755";
-            var storeLink = isIOS ? iosStore : isAndroid ? androidStore : "https://yoinn.cl";
+            // ── In-app browser detection ──────────────────────────────────────
+            var isInstagram    = /Instagram/.test(ua);
+            var isFacebook     = /FBAN|FBAV/.test(ua);
+            var isInAppBrowser = isInstagram || isFacebook;
 
-            // Extraer activityId de la URL: /activity/ABC123
-            var parts = window.location.pathname.split('/').filter(Boolean);
-            var activityId = (parts[0] === 'activity' && parts[1]) ? parts[1] : null;
+            if (isInAppBrowser) {
+                document.getElementById('iab-banner').style.display = 'block';
+            }
 
-            var deepLink = activityId
+            // ── Store URLs ────────────────────────────────────────────────────
+            var androidStore = 'https://play.google.com/store/apps/details?id=cl.yoinn.social';
+            var iosStore     = 'https://apps.apple.com/cl/app/id6756730755';
+            var storeLink    = isIOS ? iosStore : isAndroid ? androidStore : 'https://www.yoinn.cl';
+
+            // ── Extract activityId ────────────────────────────────────────────
+            // This page is served for /invite/{id} (and optionally /activity/{id}).
+            // Both prefixes map to the same activity; we only need the last segment.
+            var parts      = window.location.pathname.split('/').filter(Boolean);
+            // parts[0] = 'invite' or 'activity', parts[1] = activityId
+            var activityId = (parts.length >= 2) ? parts[1] : null;
+
+            // ── Deep links ────────────────────────────────────────────────────
+            var customScheme = activityId
                 ? 'yoinn://activity/' + activityId
                 : 'yoinn://home';
 
+            // intent:// gives Android native resolution with built-in Play Store
+            // fallback — more reliable than custom scheme in Chrome/Samsung/WebView.
+            var intentUrl = activityId
+                ? 'intent://activity/' + activityId +
+                  '#Intent;scheme=yoinn;package=cl.yoinn.social' +
+                  ';S.browser_fallback_url=' + encodeURIComponent(androidStore) + ';end'
+                : androidStore;
+
+            // ── DOM refs ──────────────────────────────────────────────────────
             var storeBtn = document.getElementById('store-btn');
             var openBtn  = document.getElementById('open-btn');
             var actions  = document.getElementById('actions');
             var status   = document.getElementById('status');
             var spinner  = document.getElementById('spinner');
 
-            storeBtn.href = storeLink;
-            storeBtn.innerText = isIOS
-                ? 'Descargar en App Store'
-                : isAndroid
-                    ? 'Descargar en Google Play'
-                    : 'Ir al sitio web';
+            storeBtn.href      = storeLink;
+            storeBtn.innerText = isIOS     ? 'Descargar en App Store'
+                               : isAndroid ? 'Descargar en Google Play'
+                               :             'Ir al sitio web';
 
-            openBtn.href = deepLink;
+            // The "I already have it" button uses the best available scheme per platform
+            openBtn.href = isAndroid ? intentUrl : customScheme;
 
             function showFallback(msg) {
                 spinner.style.display = 'none';
@@ -180,31 +230,40 @@
                 actions.style.display = 'block';
             }
 
-            // Intenta abrir la app via custom scheme
-            // Si la app está instalada → se abre y el timer nunca dispara
-            // Si no está instalada → 2.5s después mostramos los botones
-            var appOpened = false;
+            // ── Redirect logic ────────────────────────────────────────────────
+            if (isInAppBrowser) {
+                // Universal Links / App Links do NOT fire in Instagram/Facebook IABs.
+                // Show the manual UI immediately with the IAB banner already visible.
+                showFallback('');
 
-            document.addEventListener('visibilitychange', function () {
-                if (document.hidden) appOpened = true;
-            });
-
-            window.addEventListener('blur', function () {
-                appOpened = true;
-            });
-
-            // Intento de apertura via window.location (funciona iOS 10+ y Android)
-            if (isIOS || isAndroid) {
+            } else if (isAndroid) {
+                // intent:// is resolved natively by Android: opens the app if installed,
+                // otherwise fires browser_fallback_url to Play Store automatically.
+                // Still show manual UI after a timeout for browsers that block intents
+                // (e.g. some Samsung Internet versions).
                 status.innerText = 'Intentando abrir Yoinn...';
-                window.location.href = deepLink;
+                window.location.href = intentUrl;
+                setTimeout(function () { showFallback('No encontramos la app instalada.'); }, 2500);
+
+            } else if (isIOS) {
+                // Detect app open via page-visibility: when the app takes focus
+                // the Safari tab goes to background → document.hidden = true.
+                var appOpened = false;
+                document.addEventListener('visibilitychange', function () {
+                    if (document.hidden) appOpened = true;
+                });
+                window.addEventListener('pagehide', function () { appOpened = true; });
+                window.addEventListener('blur',     function () { appOpened = true; });
+
+                status.innerText = 'Intentando abrir Yoinn...';
+                window.location.href = customScheme;
 
                 setTimeout(function () {
-                    if (!appOpened) {
-                        showFallback('No encontramos la app instalada.');
-                    }
+                    if (!appOpened) showFallback('No encontramos la app instalada.');
                 }, 2500);
+
             } else {
-                // Desktop: mostrar botones directamente
+                // Desktop — show download options directly
                 showFallback('Abre este link desde tu celular.');
             }
         })();

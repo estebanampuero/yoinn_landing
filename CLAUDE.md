@@ -1,69 +1,82 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guía para Claude Code (y cualquier IA/colaborador) al trabajar en `yoinn_landing`.
 
 ## Deploy
 
 ```bash
-firebase deploy --only hosting
+firebase deploy --only hosting              # solo el sitio (public/)
+firebase deploy --only functions            # solo Cloud Functions (activitySSR)
+firebase deploy --only hosting,functions    # ambos
 ```
 
-There is no build step — the site is vanilla HTML/CSS/JS served directly from `public/`. Changes take effect immediately after deploy.
+No hay build step. El sitio es HTML/CSS/JS vanilla servido directo desde `public/`. Los cambios surten efecto al terminar el deploy.
 
-## Architecture
+## Arquitectura
 
-The landing page is a **component-loaded SPA** with no framework and no bundler.
-
-`public/index.html` is a shell that contains the Tailwind CDN config (custom colors, animations, keyframes) and four empty mount points (`#nav-root`, `#hero-root`, `#features-root`, `#footer-root`). On load, `js/app.js` fetches all four HTML fragments in parallel, injects them into the DOM, then runs i18n and scroll-reveal.
+Landing single-file. Toda la marca + secciones + estilos + i18n viven en `public/index.html`. Tailwind se carga vía CDN (`cdn.tailwindcss.com`) con su `tailwind.config` inline. La lógica de i18n y scroll-reveal está embebida al final del mismo archivo.
 
 ```
-js/app.js       ← orchestrator: loadComponent() + init sequence
-js/i18n.js      ← TRANSLATIONS object (es/en), detectLang(), applyTranslations()
-js/firebase.js  ← Firebase init (Analytics + Firestore)
-css/styles.css  ← custom classes: .glass-card, .bento-card, .reveal, .bg-landscape, slider keyframes
-components/     ← nav, hero, features, footer HTML fragments
+public/
+├── index.html         ← landing completa (Tailwind CDN + inline config + i18n + reveal)
+├── share.html         ← fallback de deep link para /invite/* (autocontenido)
+├── privacy.html       ← legales
+├── safety.html        ← legales
+├── terms.html         ← legales
+├── robots.txt
+├── 1.png              ← OG image (referenciada por share.html)
+├── logo.png           ← logo usado por share.html
+├── assets/            ← screenshots + pins usados por index.html
+└── js/
+    └── firebase.js    ← init Firebase Analytics + Firestore (importado por index.html)
+
+functions/
+└── index.js           ← Cloud Functions (activitySSR + otras)
 ```
 
-Because `app.js` uses ES modules (`type="module"`), the site must be served over HTTP — opening `index.html` as a `file://` URL will fail (CORS on fetch). Use `firebase serve` or any local HTTP server to preview locally.
+> Histórico: el landing antes era un SPA modular (`js/app.js` + `components/{nav,hero,features,footer}.html`). Fue refactorizado a single-file y todos esos archivos se eliminaron. Si encuentras referencias a esa arquitectura en docs viejos, ignóralas.
 
 ## Tailwind
 
-The config lives inline in `index.html` (inside the `tailwind.config = {...}` script block). Custom tokens:
+Config inline en `index.html` dentro del bloque `tailwind.config = {...}`. Tokens custom:
 
-| Token | Value |
+| Token | Valor |
 |---|---|
 | `brand-cyan` | `#00BCD4` |
 | `brand-dark` | `#0F172A` |
 | `brand-light` | `#F0F8FA` |
 | `brand-accent` | `#38BDF8` |
 
-Custom animations (`float`, `float-delayed`, `float-slow`, `float-fast`, `float-reverse`, `float-jiggle`, `fade-in-up`, `pulse-glow`) and their keyframes are also defined there.
+Animaciones y keyframes también viven dentro del config inline.
 
 ## i18n
 
-All user-visible text is driven by `js/i18n.js`. Language is auto-detected via `navigator.language` (Spanish if starts with `es`, otherwise English).
+Implementado inline en `index.html`. Detección de idioma vía `navigator.language` (Spanish si empieza con `es`, sino English). El objeto `TRANSLATIONS` y las funciones `detectLang()` / `applyTranslations()` están al final del archivo.
 
-- Plain text elements: `data-i18n="key"` → sets `textContent`
-- Elements with HTML (e.g. `<span>` inside): `data-i18n-html="key"` → sets `innerHTML`
+- Texto plano: `data-i18n="key"` → setea `textContent`
+- Texto con HTML (e.g. `<span>` adentro): `data-i18n-html="key"` → setea `innerHTML`
 
-To add or change copy, edit the `TRANSLATIONS` object in `i18n.js` for both `es` and `en` keys, then add the corresponding `data-i18n` attribute to the HTML fragment.
-
-## Background images
-
-Images are not bundled; `app.js` sets them via CSS custom properties and inline styles after the DOM is ready:
-
-- `.bg-landscape` → `background.png` (full-page fixed background)
-- `--bg-1`, `--bg-2`, `--bg-3` → `1.png`, `2.png`, `3.png` (phone mockup auto-slider)
+Para agregar/cambiar copy: editar el objeto `TRANSLATIONS` dentro de `index.html` (ambos `es` y `en`) y agregar el atributo correspondiente.
 
 ## Deep links & routing
 
-Two special URL patterns are handled:
+Dos rutas especiales declaradas en `firebase.json`:
 
-- `/activity/**` → Cloud Function `activitySSR` (region: `southamerica-west1`) for server-side rendering of activity share cards.
-- `/invite/**` → serves `share.html`, which attempts to open the `yoinn://activity/<id>` custom URL scheme and falls back to App Store / Google Play buttons.
+- `/activity/**` → Cloud Function `activitySSR` (region `southamerica-west1`) para SSR de share cards de actividades.
+- `/invite/**` → sirve `share.html`, que intenta abrir `yoinn://activity/<id>` y cae a botones de App Store / Google Play.
 
-`share.html` is self-contained (no external CSS/JS dependencies) and handles both iOS and Android detection inline.
+`share.html` es autocontenido (estilos y JS inline, sin dependencias externas) y maneja la detección de iOS/Android, Instagram/Facebook in-app browser, y el `intent://` de Android.
+
+## Apple App Site Association y Android App Links
+
+`public/.well-known/apple-app-site-association` declara los dos Team IDs (`SZYY54G5X9` producción + `8XLNMJLVL5` desarrollo) y los patrones `/activity/*` y `/invite/*`. Incluye `webcredentials` para shared web credentials.
+
+`public/.well-known/assetlinks.json` declara el SHA-256 del release certificate de `cl.yoinn.social`.
+
+Ambos se sirven con `Content-Type: application/json` vía `firebase.json` headers.
 
 ## Firebase project
 
-Project ID: `yoinnapp`. Hosting domain: `yoinnapp.web.app` / `yoinn.cl`.
+- **Project ID**: `yoinnapp`
+- **Hosting domain**: `yoinnapp.web.app` / `yoinn.cl` / `www.yoinn.cl`
+- **Region functions**: `southamerica-west1`

@@ -1,11 +1,28 @@
 {
   "applinks": {
-    "apps": [],
     "details": [
       {
-        "appID": "SZYY54G5X9.cl.yoinn.yoinnapp",
-        "paths": ["/activity/*", "/invite/*"]
+        "appIDs": [
+          "SZYY54G5X9.cl.yoinn.yoinnapp",
+          "8XLNMJLVL5.cl.yoinn.yoinnapp"
+        ],
+        "components": [
+          {
+            "/": "/activity/*",
+            "comment": "Abre ActivityDetailScreen para cualquier actividad"
+          },
+          {
+            "/": "/invite/*",
+            "comment": "Abre ActivityDetailScreen desde link de invitación"
+          }
+        ]
       }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "SZYY54G5X9.cl.yoinn.yoinnapp",
+      "8XLNMJLVL5.cl.yoinn.yoinnapp"
     ]
   }
 }
