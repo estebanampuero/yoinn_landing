@@ -4,15 +4,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yoinn — ¿Hoy qué hacemos?</title>
+  <title>Yoinn — ¿Hoy qué hacemos? | Conoce gente y planes reales cerca de ti</title>
   <meta name="description"
-    content="Yoinn es la app que te saca de la pantalla. Actividades reales, gente real, cerca de ti." />
+    content="Yoinn es la app chilena para conocer personas en la vida real: actividades y planes espontáneos cerca de ti. Pádel, trekking, café, asados y más. No es app de citas, es comunidad." />
+  <link rel="canonical" href="https://www.yoinn.cl/" />
 
+  <!-- Open Graph -->
   <meta property="og:title" content="Yoinn — ¿Hoy qué hacemos?" />
-  <meta property="og:description" content="El antídoto contra la soledad moderna. Descarga gratis." />
-  <meta property="og:image" content="https://yoinn.cl/assets/pin.png" />
-  <meta property="og:url" content="https://yoinn.cl" />
+  <meta property="og:description" content="La app para conocer gente real a través de actividades cerca de ti. El antídoto contra la soledad moderna. Descarga gratis." />
+  <meta property="og:image" content="https://www.yoinn.cl/1.png" />
+  <meta property="og:image:alt" content="Yoinn — actividades y planes reales cerca de ti" />
+  <meta property="og:url" content="https://www.yoinn.cl/" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Yoinn" />
+  <meta property="og:locale" content="es_CL" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Yoinn — ¿Hoy qué hacemos?" />
+  <meta name="twitter:description" content="Conoce gente real a través de actividades cerca de ti. El antídoto contra la soledad moderna." />
+  <meta name="twitter:image" content="https://www.yoinn.cl/1.png" />
+
+  <!-- Structured data: Organization + App + Website -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.yoinn.cl/#organization",
+        "name": "Yoinn",
+        "url": "https://www.yoinn.cl/",
+        "logo": "https://www.yoinn.cl/logo.png",
+        "email": "letsgo@yoinn.cl",
+        "description": "App chilena para conocer personas en la vida real a través de actividades y planes espontáneos cerca de ti.",
+        "areaServed": "CL",
+        "sameAs": [
+          "https://instagram.com/yoinn_cl",
+          "https://tiktok.com/@yoinn"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.yoinn.cl/#website",
+        "url": "https://www.yoinn.cl/",
+        "name": "Yoinn",
+        "inLanguage": "es-CL",
+        "publisher": { "@id": "https://www.yoinn.cl/#organization" }
+      },
+      {
+        "@type": "MobileApplication",
+        "name": "Yoinn",
+        "operatingSystem": "iOS, Android",
+        "applicationCategory": "SocialNetworkingApplication",
+        "url": "https://www.yoinn.cl/",
+        "description": "Descubre actividades y planes reales cerca de ti, únete con un tap y conoce gente nueva en tu ciudad.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CLP" },
+        "installUrl": [
+          "https://apps.apple.com/app/yoinn/id6756730755",
+          "https://play.google.com/store/apps/details?id=cl.yoinn.social"
+        ]
+      }
+    ]
+  }
+  </script>
 
   <link rel="icon" type="image/png" href="assets/pin.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -601,8 +656,7 @@
       <div class="mq-track" id="gallery-bot-track"></div>
     </div>
 
-    <p class="text-center text-sm text-ink-500 mt-10 font-medium" data-i18n="gallery.note">Las fotos reales de los
-      yoinners se cargarán pronto.</p>
+    <p class="text-center text-sm text-ink-500 mt-10 font-medium" data-i18n="gallery.note">Momentos de la comunidad Yoinn.</p>
   </section>
 
   <!-- ==================== COMUNIDAD REAL ==================== -->
@@ -710,9 +764,19 @@
         <a href="privacy.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.privacy">Privacidad</a>
         <a href="terms.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.terms">Términos</a>
         <a href="safety.html" class="text-ink-600 hover:text-ink-900 transition" data-i18n="footer.safety">Seguridad infantil</a>
+        <a href="/anfitriones" class="text-gold-600 font-bold hover:text-gold-500 transition">🟡 Sé Anfitrión</a>
         <a href="mailto:letsgo@yoinn.cl" class="text-ink-600 hover:text-ink-900 transition">letsgo@yoinn.cl</a>
-        <a href="https://instagram.com/yoinn.cl" class="text-ink-600 hover:text-ink-900 transition" rel="noopener">Instagram</a>
-        <a href="https://tiktok.com/@yoinn.cl" class="text-ink-600 hover:text-ink-900 transition" rel="noopener">TikTok</a>
+        <a href="https://instagram.com/yoinn_cl" class="text-ink-600 hover:text-ink-900 transition" rel="noopener" target="_blank">Instagram</a>
+        <a href="https://tiktok.com/@yoinn" class="text-ink-600 hover:text-ink-900 transition" rel="noopener" target="_blank">TikTok</a>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-semibold mb-8 border-t border-cyan-500/10 pt-6">
+        <span class="text-ink-500 text-xs uppercase tracking-wider w-full mb-1">Qué hacer en</span>
+        <a href="/puerto-montt/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Puerto Montt</a>
+        <a href="/puerto-varas/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Puerto Varas</a>
+        <a href="/valdivia/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Valdivia</a>
+        <a href="/osorno/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Osorno</a>
+        <a href="/concepcion/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Concepción</a>
+        <a href="/santiago/que-hacer" class="text-ink-600 hover:text-cyan-700 transition">Santiago</a>
       </div>
       <div class="flex items-center justify-center gap-6 text-xs text-ink-500 border-t border-cyan-500/10 pt-6">
         <span>© 2026 Yoinn App · yoinn.cl</span>
@@ -805,7 +869,7 @@
         'gallery.eyebrow': 'La comunidad',
         'gallery.title.l1': 'Personas reales.',
         'gallery.title.l2': 'Momentos reales.',
-        'gallery.note': 'Las fotos reales de los yoinners se cargarán pronto.',
+        'gallery.note': 'Momentos de la comunidad Yoinn.',
         'gallery.c.sunset':   'Sunset · Maitencillo',
         'gallery.c.padel':    'Pádel · Las Condes',
         'gallery.c.asado':    'Asado · Ñuñoa',
@@ -869,7 +933,7 @@
         'gallery.eyebrow': 'The community',
         'gallery.title.l1': 'Real people.',
         'gallery.title.l2': 'Real moments.',
-        'gallery.note': "Real yoinners' photos coming soon.",
+        'gallery.note': 'Moments from the Yoinn community.',
         'gallery.c.sunset':   'Sunset · Maitencillo',
         'gallery.c.padel':    'Padel · Las Condes',
         'gallery.c.asado':    'BBQ · Ñuñoa',
@@ -1040,7 +1104,8 @@
 
     /* ── Build gallery card DOM ──────────────────────── */
     function buildCard(item, lang, isClone) {
-      const label = I18N[lang][item.key] || item.key;
+      // Real activities pass a literal `label`; seed cards use an i18n `key`.
+      const label = (item.label != null) ? item.label : (I18N[lang][item.key] || item.key);
       const card = document.createElement('div');
       card.className = 'photo-card';
       if (isClone) card.setAttribute('aria-hidden', 'true');
@@ -1059,7 +1124,7 @@
 
       const meta = document.createElement('div');
       meta.className = 'meta';
-      meta.setAttribute('data-i18n', item.key);
+      if (item.key) meta.setAttribute('data-i18n', item.key); // real labels stay as-is on lang switch
       meta.textContent = label;
 
       card.appendChild(imgWrap);
@@ -1083,9 +1148,42 @@
       const gBot = document.getElementById('gallery-bot-track');
       const lang = detectLang();
 
+      // Active gallery data — starts as seed images, swapped for real activities
+      // once /api/recent-activities responds (keeps the carousel never-empty).
+      let galleryTop = GALLERY_TOP;
+      let galleryBot = GALLERY_BOT;
+
       // Build gallery before applyLang so data-i18n elements are in DOM
-      buildTrack(gTop, GALLERY_TOP, lang, { duration: 42, direction: 'rtl' });
-      buildTrack(gBot, GALLERY_BOT, lang, { duration: 55, direction: 'ltr' });
+      buildTrack(gTop, galleryTop, lang, { duration: 42, direction: 'rtl' });
+      buildTrack(gBot, galleryBot, lang, { duration: 55, direction: 'ltr' });
+
+      // ── Real activities → fill the carousel with live images ───────────────
+      // Read-only: hits the recentActivities Cloud Function (admin SDK) which
+      // returns a curated { activities: [{img,label}] } list. On any failure or
+      // empty result we keep the seed gallery, so the section is never blank.
+      (async function loadRealActivities() {
+        try {
+          const res = await fetch('/api/recent-activities', { headers: { Accept: 'application/json' } });
+          if (!res.ok) return;
+          const data = await res.json();
+          const items = Array.isArray(data.activities) ? data.activities : [];
+          if (items.length < 1) return; // nothing real yet → keep seed images
+
+          const real = items.map(a => ({ label: a.label, img: a.img }));
+          const top = real.filter((_, i) => i % 2 === 0);
+          const bot = real.filter((_, i) => i % 2 === 1);
+          // Pad each row with seed cards so the marquee always looks full
+          let s = 0;
+          while (top.length < 6) { top.push(GALLERY_TOP[s % GALLERY_TOP.length]); s++; }
+          s = 0;
+          while (bot.length < 6) { bot.push(GALLERY_BOT[s % GALLERY_BOT.length]); s++; }
+
+          galleryTop = top;
+          galleryBot = bot;
+          buildTrack(gTop, galleryTop, currentLang, { duration: 42, direction: 'rtl' });
+          buildTrack(gBot, galleryBot, currentLang, { duration: 55, direction: 'ltr' });
+        } catch (_) { /* keep seed gallery on error */ }
+      })();
 
       // Pills — CSS fallback already active; WAAPI overrides for precision
       MarqueeController.init(document.getElementById('pills-track'), { duration: 32, direction: 'rtl' });
@@ -1096,9 +1194,9 @@
       function changeLang(l) {
         localStorage.setItem('yoinn-lang', l);
         applyLang(l);
-        // Rebuild cards with new labels, re-init marquees
-        buildTrack(gTop, GALLERY_TOP, l, { duration: 42, direction: 'rtl' });
-        buildTrack(gBot, GALLERY_BOT, l, { duration: 55, direction: 'ltr' });
+        // Rebuild cards with new labels, re-init marquees (keeps real activities if loaded)
+        buildTrack(gTop, galleryTop, l, { duration: 42, direction: 'rtl' });
+        buildTrack(gBot, galleryBot, l, { duration: 55, direction: 'ltr' });
       }
 
       // Lang toggles (nav + footer)

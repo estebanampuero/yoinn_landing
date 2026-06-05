@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
+# App-redirect interstitials — useful for sharing, not for search indexing
+Disallow: /activity/
+Disallow: /invite/
 
+# Social scrapers fetch URLs directly, so link previews keep working
 User-agent: facebookexternalhit
 Allow: /
 
@@ -10,4 +14,4 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
-Sitemap: https://yoinn.cl/sitemap.xml
+Sitemap: https://www.yoinn.cl/sitemap.xml

@@ -1,0 +1,73 @@
+{
+  "name": "Yoinn · Actividad → Contenido Omnicanal",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [ { "field": "minutes", "minutesInterval": 30 } ] }
+      },
+      "id": "schedule",
+      "name": "Cada 30 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [ 240, 300 ]
+    },
+    {
+      "parameters": {
+        "url": "https://yoinn.cl/api/recent-activities",
+        "options": {}
+      },
+      "id": "fetch",
+      "name": "GET recent-activities",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [ 460, 300 ]
+    },
+    {
+      "parameters": { "fieldToSplitOut": "activities", "options": {} },
+      "id": "split",
+      "name": "Split actividades",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [ 680, 300 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [
+          { "name": "x-api-key", "value": "={{ $credentials.anthropicApi.apiKey }}" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "content-type", "value": "application/json" }
+        ] },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-6\",\n  \"max_tokens\": 700,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Eres el community manager de Yoinn, app chilena para conocer gente real por actividades. Tono cercano, chileno neutro, anti-soledad. NO vendas features, vende la historia. Actividad: \\\"{{ $json.label }}\\\". Devuelve SOLO un JSON valido: {\\\"ig_caption\\\":\\\"...\\\",\\\"tiktok_hook\\\":\\\"...\\\",\\\"seo_paragraph\\\":\\\"...\\\",\\\"newsletter_blurb\\\":\\\"...\\\"}\" }\n  ]\n}",
+        "options": {}
+      },
+      "id": "claude",
+      "name": "Claude · generar contenido",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [ 900, 300 ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrae el JSON que devolvió Claude y lo deja como campos planos\nfor (const item of $input.all()) {\n  const text = item.json?.content?.[0]?.text || '{}';\n  let parsed = {};\n  try { parsed = JSON.parse(text); } catch (e) { parsed = { error: 'parse', raw: text }; }\n  item.json = parsed;\n}\nreturn $input.all();"
+      },
+      "id": "parse",
+      "name": "Parse JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [ 1120, 300 ]
+    }
+  ],
+  "connections": {
+    "Cada 30 min": { "main": [ [ { "node": "GET recent-activities", "type": "main", "index": 0 } ] ] },
+    "GET recent-activities": { "main": [ [ { "node": "Split actividades", "type": "main", "index": 0 } ] ] },
+    "Split actividades": { "main": [ [ { "node": "Claude · generar contenido", "type": "main", "index": 0 } ] ] },
+    "Claude · generar contenido": { "main": [ [ { "node": "Parse JSON", "type": "main", "index": 0 } ] ] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateNote": "Esqueleto. Añade dedupe (Supabase/Sheets) entre Split y Claude, y nodos de salida (Sheets/Buffer/Email) tras Parse JSON. Configura la credencial Anthropic." }
+}

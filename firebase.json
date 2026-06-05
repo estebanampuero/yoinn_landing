@@ -25,6 +25,16 @@
     ],
     "rewrites": [
       {
+        "source": "/api/recent-activities",
+        "function": "recentActivities",
+        "region": "southamerica-west1"
+      },
+      {
+        "source": "/api/host-application",
+        "function": "submitHostApplication",
+        "region": "southamerica-west1"
+      },
+      {
         "source": "/activity/**",
         "function": "activitySSR",
         "region": "southamerica-west1"

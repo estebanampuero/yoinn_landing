@@ -1,6 +1,8 @@
 'use strict';
 
-const {onRequest} = require('firebase-functions/v2/https');
+const {onRequest, onCall, HttpsError} = require('firebase-functions/v2/https');
+const {defineSecret} = require('firebase-functions/params');
+const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
 const {logger}    = require('firebase-functions');
 const admin       = require('firebase-admin');
 
@@ -383,4 +385,235 @@ exports.activitySSR = onRequest(
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Content-Type', 'text/html; charset=utf-8');
     res.status(200).send(html);
+  });
+
+// ─── recentActivities ─────────────────────────────────────────────────────────
+//
+// READ-ONLY endpoint that feeds the public landing gallery. Returns a curated
+// JSON list of recent activities (only an image + a short label) so the homepage
+// carousel shows real Yoinn moments instead of stock photos.
+//
+//   • Uses the Admin SDK → bypasses the authenticated-only Firestore rules
+//     WITHOUT exposing the full collection (we only emit img + label).
+//   • Never writes. Never mutates. Does not touch the app or other functions.
+//   • Ordered by dateTime desc → includes PAST activities so the carousel stays
+//     full even when little is happening (per product requirement).
+//   • Cached 10 min at the edge to keep Firestore reads (and cost) low.
+//
+const RECENT_LIMIT        = 18;     // max cards returned to the landing
+const RECENT_SCAN         = 60;     // how many recent docs to scan for images
+const REQUIRE_OPEN_TO_ALL = false;  // ⚠️ set true to only surface activities open to everyone (privacy)
+
+exports.recentActivities = onRequest(
+  { region: 'southamerica-west1', cors: true },
+  async (req, res) => {
+    res.set('Cache-Control', 'public, max-age=600, s-maxage=600');
+    res.set('Content-Type', 'application/json; charset=utf-8');
+
+    try {
+      const snap = await admin.firestore()
+        .collection('activities')
+        .orderBy('dateTime', 'desc')
+        .limit(RECENT_SCAN)
+        .get();
+
+      const out = [];
+      for (const doc of snap.docs) {
+        const d = doc.data();
+        if (REQUIRE_OPEN_TO_ALL && d.isOpenToAll !== true) continue;
+
+        const gallery = Array.isArray(d.galleryUrls) ? d.galleryUrls : [];
+        const img     = gallery.length ? gallery[0] : (d.imageUrl || '');
+        const title   = (d.title || '').trim();
+        if (!img || !title) continue; // only cards that look good
+
+        const loc = (d.location || '').split(',')[0].trim().slice(0, 22);
+        out.push({ img, label: loc ? `${title} · ${loc}` : title });
+        if (out.length >= RECENT_LIMIT) break;
+      }
+
+      res.status(200).json({ activities: out });
+    } catch (err) {
+      logger.error('recentActivities error', err);
+      res.status(200).json({ activities: [] }); // fail soft → landing keeps seed gallery
+    }
+  });
+
+// ─── submitHostApplication ────────────────────────────────────────────────────
+//
+// Recibe las postulaciones del formulario público /anfitriones y las guarda en
+// la colección `host_applications` (NUEVA, no toca datos existentes) para que las
+// revises desde tu admin-web. Solo escribe en esa colección.
+//
+exports.submitHostApplication = onRequest(
+  { region: 'southamerica-west1', cors: true },
+  async (req, res) => {
+    if (req.method !== 'POST') { res.status(405).json({ ok: false, error: 'method' }); return; }
+    try {
+      const b = req.body || {};
+      const clean = (v, n) => String(v ?? '').trim().slice(0, n);
+      const name      = clean(b.name, 80);
+      const instagram = clean(b.instagram, 50).replace(/^@+/, '');
+      const city      = clean(b.city, 40);
+      const organizes = Array.isArray(b.organizes) ? b.organizes.slice(0, 12).map(s => clean(s, 30)) : [];
+      const communitySize = clean(b.communitySize, 30);
+      const frequency     = clean(b.frequency, 30);
+      const hasApp        = b.hasApp === true || b.hasApp === 'true';
+      const email         = clean(b.email, 120);
+
+      if (!name || !instagram || !city) { res.status(400).json({ ok: false, error: 'missing' }); return; }
+
+      await admin.firestore().collection('host_applications').add({
+        name, instagram, city, organizes, communitySize, frequency, hasApp, email,
+        status: 'nuevo',                 // nuevo → revisado → aprobado → activado → contactado
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        source: 'landing/anfitriones',
+      });
+
+      res.status(200).json({ ok: true });
+    } catch (err) {
+      logger.error('submitHostApplication error', err);
+      res.status(500).json({ ok: false, error: 'server' });
+    }
+  });
+
+// ─── Admin: revisión de postulaciones de anfitriones ──────────────────────────
+//
+// host_applications es una colección nueva sin reglas Firestore (default deny),
+// así que el admin-web la lee/escribe SOLO a través de estas funciones onCall,
+// que verifican que quien llama sea admin. No tocan reglas ni datos de la app.
+
+async function _assertAdmin(request) {
+  const uid = request.auth && request.auth.uid;
+  if (!uid) throw new HttpsError('unauthenticated', 'Login requerido');
+  const snap = await admin.firestore().collection('users').doc(uid).get();
+  if (!snap.exists || snap.data().isAdmin !== true) {
+    throw new HttpsError('permission-denied', 'Solo administradores');
+  }
+  return uid;
+}
+
+exports.listHostApplications = onCall({ region: 'southamerica-west1' }, async (request) => {
+  await _assertAdmin(request);
+  const db = admin.firestore();
+  const snap = await db.collection('host_applications').orderBy('createdAt', 'desc').limit(300).get();
+
+  const out = [];
+  for (const doc of snap.docs) {
+    const d = doc.data();
+
+    // Match con el usuario por instagramHandle (exacto, con y sin @)
+    let matched = null;
+    const ig = (d.instagram || '').trim();
+    if (ig) {
+      let uq = await db.collection('users').where('instagramHandle', '==', ig).limit(1).get();
+      if (uq.empty) uq = await db.collection('users').where('instagramHandle', '==', '@' + ig).limit(1).get();
+      if (!uq.empty) {
+        const ud = uq.docs[0].data();
+        matched = {
+          uid: uq.docs[0].id,
+          name: ud.name || '',
+          activitiesCreatedCount: ud.activitiesCreatedCount || 0,
+          isOrganization: ud.isOrganization === true,
+          isPro: ud.isManualPro === true || ud.isPremium === true,
+        };
+      }
+    }
+
+    out.push({
+      id: doc.id,
+      name: d.name || '', instagram: d.instagram || '', city: d.city || '',
+      organizes: Array.isArray(d.organizes) ? d.organizes : [],
+      communitySize: d.communitySize || '', frequency: d.frequency || '',
+      hasApp: d.hasApp === true, email: d.email || '',
+      status: d.status || 'nuevo',
+      createdAt: d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toISOString() : null,
+      matched,
+    });
+  }
+  return { applications: out };
+});
+
+exports.setHostApplicationStatus = onCall({ region: 'southamerica-west1' }, async (request) => {
+  await _assertAdmin(request);
+  const { applicationId, status } = request.data || {};
+  const allowed = ['nuevo', 'revisado', 'aprobado', 'rechazado', 'activado', 'contactado'];
+  if (!applicationId || !allowed.includes(status)) {
+    throw new HttpsError('invalid-argument', 'applicationId y status válido requeridos');
+  }
+  await admin.firestore().collection('host_applications').doc(applicationId).update({
+    status,
+    statusUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+  return { ok: true };
+});
+
+// ─── Email de activación de Súper-Anfitrión (Resend) ──────────────────────────
+//
+// Envía el correo "ya eres Súper-Anfitrión" desde letsgo@yoinn.cl vía Resend.
+// Requiere que el dominio yoinn.cl esté verificado en Resend (registros DNS) y
+// el secret RESEND_API_KEY. Es best-effort: si falla, la activación + push igual
+// quedan hechas.
+exports.sendSuperHostEmail = onCall(
+  { region: 'southamerica-west1', secrets: [RESEND_API_KEY] },
+  async (request) => {
+    await _assertAdmin(request);
+    const { applicationId } = request.data || {};
+    if (!applicationId) throw new HttpsError('invalid-argument', 'applicationId requerido');
+
+    const db = admin.firestore();
+    const snap = await db.collection('host_applications').doc(applicationId).get();
+    if (!snap.exists) throw new HttpsError('not-found', 'Postulación no existe');
+
+    const d  = snap.data();
+    const to = (d.email || '').trim();
+    if (!to) return { ok: false, skipped: 'sin-email' };
+    const name = (d.name || '').trim().split(' ')[0] || 'crack';
+
+    const html = `<!DOCTYPE html><html><body style="margin:0;background:#E8F6F6;font-family:Helvetica,Arial,sans-serif">
+  <div style="max-width:520px;margin:0 auto;padding:32px 20px">
+    <div style="background:#fff;border-radius:24px;padding:36px 28px;text-align:center">
+      <div style="font-size:48px;margin-bottom:8px">🟡</div>
+      <h1 style="font-size:26px;color:#0A0E1A;margin:0 0 12px">¡Ya eres Súper-Anfitrión, ${escHtml(name)}!</h1>
+      <p style="font-size:16px;color:#2A3548;line-height:1.6;margin:0 0 24px">
+        Activamos tu cuenta en Yoinn. Ahora tienes:
+      </p>
+      <div style="text-align:left;background:#F0FAFA;border-radius:16px;padding:18px 20px;margin-bottom:24px">
+        <p style="margin:0 0 10px;color:#0A0E1A;font-size:15px"><strong>🟡 Insignia dorada</strong> — destacas en el mapa y en cada actividad.</p>
+        <p style="margin:0 0 10px;color:#0A0E1A;font-size:15px"><strong>♾️ Yoinn Pro de por vida</strong> — gratis, para siempre.</p>
+        <p style="margin:0;color:#0A0E1A;font-size:15px"><strong>🚀 Acceso exclusivo</strong> — eventos y novedades antes que nadie.</p>
+      </div>
+      <p style="font-size:16px;color:#2A3548;line-height:1.6;margin:0 0 24px">
+        Abre la app y crea tu primera actividad. Tu ciudad te está esperando.
+      </p>
+      <a href="https://www.yoinn.cl/" style="display:inline-block;background:#0A0E1A;color:#fff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:14px">Abrir Yoinn →</a>
+      <p style="font-size:12px;color:#5A6B7E;margin:28px 0 0">Yoinn · El antídoto contra la soledad moderna · Hecho en Chile 🇨🇱</p>
+    </div>
+  </div>
+</body></html>`;
+
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY.value()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Yoinn <letsgo@yoinn.cl>',
+        to: [to],
+        subject: '🟡 ¡Ya eres Súper-Anfitrión de Yoinn!',
+        html,
+      }),
+    });
+
+    if (!resp.ok) {
+      const t = await resp.text();
+      logger.error('resend send error', t);
+      throw new HttpsError('internal', `Resend ${resp.status}: ${t.slice(0, 180)}`);
+    }
+
+    await db.collection('host_applications').doc(applicationId).update({
+      emailSentAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    return { ok: true };
   });
