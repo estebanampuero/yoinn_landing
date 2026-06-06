@@ -1334,20 +1334,48 @@
   </script>
   <script type="module" src="js/firebase.js"></script>
 
-  <!-- ==================== MOTION (anime.js v4) ==================== -->
+  <!-- ==================== MOTION (anime.js v4 · arco narrativo) ==================== -->
   <style>
-    /* Elementos decorativos — solo existen si motion.js corre */
-    .fx-pins{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-    .fx-pin{position:absolute;opacity:0;filter:drop-shadow(0 8px 16px rgba(0,188,212,.25))}
-    .fx-route{position:absolute;left:0;right:0;top:38%;bottom:0;pointer-events:none;z-index:0;opacity:.9}
-    .fx-route-svg{width:100%;height:100%;display:block}
-    .fx-howline{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:visible}
-    .fx-converge{position:absolute;top:5.5rem;right:4%;width:230px;height:230px;pointer-events:none;z-index:0;opacity:.95}
-    .fx-converge-svg{width:100%;height:100%;display:block;overflow:visible}
-    .cv-dot{opacity:0}
-    @media (max-width:1023px){.fx-converge{display:none}}
+    /* Estos elementos solo existen si motion.js corre (inyectados por JS) */
+
+    /* Beat 1 · Hero — planes "live" que caen sobre el mapa */
+    .fx-live{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+    .fx-live-pill{position:absolute;display:inline-flex;align-items:center;gap:.45rem;
+      transform:translateX(-50%);white-space:nowrap;background:rgba(255,255,255,.85);
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(0,188,212,.18);border-radius:9999px;padding:.4rem .8rem;
+      font-size:.8rem;font-weight:700;color:#0A0E1A;opacity:0;
+      box-shadow:0 8px 22px -8px rgba(10,14,26,.22)}
+    .fx-live-emoji{font-size:.95rem}
+    .fx-live-dot{width:.5rem;height:.5rem;border-radius:9999px;background:#00BCD4;flex:none}
+
+    /* Beat 2 · Manifiesto — contactos que se dispersan (el problema) */
+    .fx-scatter{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .fx-scatter-dot{position:absolute;width:9px;height:9px;border-radius:9999px;
+      background:rgba(0,188,212,.45);opacity:0;will-change:transform,opacity}
+
+    /* Beat 3 · Cómo funciona — la ruta que se traza */
+    .fx-journey{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:visible}
+
+    /* Beat 4 · Comunidad — brillo de la badge dorada */
+    .fx-shimmer{position:absolute;inset:0;pointer-events:none;z-index:1;
+      background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%);
+      transform:translateX(-130%)}
+
+    /* Beat 5 · Stats — estrellas que se llenan a 4.8/5 */
+    .fx-stars{position:relative;display:inline-block;margin-top:.35rem;line-height:1;
+      font-size:1.6rem;letter-spacing:.1rem}
+    .fx-stars-bg{color:rgba(90,107,126,.25)}
+    .fx-stars-fill{position:absolute;inset:0;width:0;overflow:hidden;white-space:nowrap;color:#FFB300}
+
+    /* Beat 6 · CTA final — avatares que convergen (el encuentro) */
+    .fx-gather{position:absolute;left:50%;top:2rem;transform:translateX(-50%);
+      width:360px;height:240px;pointer-events:none;z-index:0;opacity:.9}
+    .fx-gather-svg{width:100%;height:100%;display:block;overflow:visible}
+
+    @media (max-width:1023px){.fx-live,.fx-scatter,.fx-journey,.fx-gather{display:none!important}}
     @media (prefers-reduced-motion:reduce){
-      .fx-pins,.fx-route,.fx-howline,.fx-converge{display:none!important}
+      .fx-live,.fx-scatter,.fx-journey,.fx-gather,.fx-shimmer{display:none!important}
     }
   </style>
   <script type="module" src="js/motion.js"></script>
