@@ -41,7 +41,8 @@
       },
       {
         "source": "/invite/**",
-        "destination": "/share.html"
+        "function": "activitySSR",
+        "region": "southamerica-west1"
       }
     ]
   }
