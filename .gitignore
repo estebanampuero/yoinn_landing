@@ -68,3 +68,22 @@ node_modules/
 # dataconnect generated files
 .dataconnect
 .DS_Store
+
+# Marketing — material crudo (pesado / third-party) y fuentes Apple (licencia)
+marketing/inbox/
+marketing/assets/fonts/
+
+# Este repo sirve UNA cosa: www.yoinn.cl. Todo lo de abajo vive en el disco a
+# proposito y no entra a git.
+#
+# marketing/ pesa 1,7 GB — 334 MB de PNG, 271 MB de MP4, 99 MB de JPG. Git guarda
+# historia para siempre: subirlo una vez deja el repo pesado de forma irreversible
+# aunque despues se borre, y cada clon futuro se lo descarga. Si algun dia hace falta
+# versionar los assets, el camino es Git LFS o un bucket, no este repo.
+# (Ahi dentro hay ~45 archivos de texto —guia de marca, voz y tono, calendario— que
+# si valdria la pena versionar aparte, en un repo de documentacion.)
+marketing/
+
+# Herramientas locales, no son parte del sitio publicado.
+video-ai-skill/
+.claude/

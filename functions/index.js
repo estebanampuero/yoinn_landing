@@ -344,27 +344,31 @@ exports.activitySSR = onRequest(
         if (isAndroid) {
           // intent:// is handled by Android's intent resolution — if the app is
           // installed it opens directly; if not, the browser_fallback_url fires.
+          // intent:// never triggers Safari-style "address invalid" errors, so
+          // auto-firing it is safe on Android.
           // We still show the manual UI after a short wait in case neither happens
           // (e.g. Samsung Internet blocking intents).
           window.location.href = intentUrl;
           setTimeout(showManual, 2500);
 
-        } else if (isIOS) {
-          // Use the visibilitychange event as a proxy for "app opened":
-          // when the app takes focus the tab goes hidden → appOpened = true.
-          var appOpened = false;
-          document.addEventListener('visibilitychange', function () {
-            if (document.hidden) appOpened = true;
-          });
-          window.addEventListener('pagehide', function () { appOpened = true; });
-
-          window.location.href = customScheme;
-          setTimeout(function () {
-            if (!appOpened) showManual();
-          }, 2500);
-
         } else {
-          // Desktop — just show download options
+          // iOS + desktop: do NOT auto-navigate to the custom scheme.
+          //
+          // On iOS, navigating to yoinn://... via window.location throws
+          // Safari's "no se puede abrir la página porque la dirección no es
+          // válida" modal for every recipient who does NOT have the app
+          // installed — the majority of people you share an invite link with.
+          //
+          // When the app IS installed and the link is tapped from another app,
+          // the Universal Link (applinks:www.yoinn.cl) already opens the app
+          // directly and this page never loads. The Smart App Banner
+          // (apple-itunes-app meta) covers the "already installed, opened in
+          // Safari" case with a native, error-free "OPEN" button.
+          //
+          // So auto-firing the scheme here only produced errors for non-users.
+          // Show the manual UI (Abrir en Yoinn / Descargar) immediately; the
+          // "Abrir en Yoinn" button still uses the scheme on an explicit tap
+          // for the few users who land here with the app installed.
           showManual();
         }
       }

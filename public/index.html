@@ -404,6 +404,14 @@
       background: linear-gradient(135deg, #C8ECEC 0%, #A8DEDE 100%);
     }
 
+    /* Broken image → branded gradient tile (no empty teal card) */
+    .photo-card.is-fallback img { opacity: 0; }
+    .photo-card.is-fallback .img-wrap {
+      background:
+        url('assets/pin.png') center 42% / 72px no-repeat,
+        linear-gradient(150deg, #00E5FF 0%, #00BCD4 45%, #0097A7 100%);
+    }
+
     .surface-card {
       background: rgba(255,255,255,0.55);
       backdrop-filter: blur(12px);
@@ -411,6 +419,57 @@
       border: 1px solid rgba(255,255,255,0.6);
       box-shadow: 0 30px 60px -25px rgba(10,14,26,0.15);
     }
+
+    /* ── Carrusel "Cómo funciona" ─────────────────────── */
+    .cx-viewport { overflow: hidden; }
+    .cx-track {
+      display: flex;
+      transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+      will-change: transform;
+      touch-action: pan-y;
+    }
+    .cx-track.dragging { transition: none; }
+    .cx-slide { flex: 0 0 100%; min-width: 0; padding: 4px; }
+
+    .cx-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 188, 212, 0.12);
+      color: #0097A7;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 999px;
+    }
+
+    .cx-arrow {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      background: #fff;
+      color: #0097A7;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 34px -12px rgba(10, 14, 26, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.04);
+      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease;
+    }
+    .cx-arrow:hover { transform: translateY(-2px); box-shadow: 0 20px 44px -12px rgba(0, 188, 212, 0.4); color: #00ACC1; }
+    .cx-arrow:active { transform: scale(.94); }
+
+    .cx-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(10, 14, 26, 0.16);
+      transition: width .35s cubic-bezier(.16, 1, .3, 1), background .35s ease;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .cx-dot.active { width: 30px; background: var(--cyan-grad); }
 
     #tweaks-panel { display: none; }
     #tweaks-panel.open { display: block; }
@@ -612,44 +671,174 @@
     </div>
   </section>
 
-  <!-- ==================== CÓMO FUNCIONA ==================== -->
+  <!-- ==================== CÓMO FUNCIONA (carrusel) ==================== -->
   <section class="relative py-24 md:py-32">
     <div class="max-w-7xl mx-auto px-5 md:px-10">
-      <div class="max-w-3xl mb-16 md:mb-24">
+      <div class="max-w-3xl mb-12 md:mb-16">
         <p class="eyebrow text-cyan-700 mb-4 reveal" data-i18n="how.eyebrow">Cómo funciona</p>
         <h2 class="display-md text-[clamp(36px,6vw,72px)] reveal delay-1">
-          <span data-i18n="how.title.l1">Tres pasos.</span><br />
-          <span class="text-grad-cyan" data-i18n="how.title.l2">Cero fricción.</span>
+          <span data-i18n="how.title.l1">Así de simple.</span><br />
+          <span class="text-grad-cyan" data-i18n="how.title.l2">De la app a la calle.</span>
         </h2>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-12 md:gap-8">
-        <div class="reveal">
-          <div class="step-num mb-4">01</div>
-          <div class="phone-frame max-w-[280px] mb-6">
-            <img src="assets/screen-feed-2.webp" alt="" loading="lazy" decoding="async" width="280" height="560" />
+      <div class="reveal delay-1" id="how-carousel"
+        role="region" aria-roledescription="carrusel" aria-label="Cómo funciona Yoinn" tabindex="0">
+        <div class="cx-viewport">
+          <div class="cx-track" id="cx-track">
+
+            <!-- Slide 1 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="1 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s1.tag">📍 Explora</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s1.title">Mira qué está pasando hoy.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s1.body">Abre Yoinn y descubre planes reales a metros de ti: sunset, pádel, café,
+                      trekking. Todo lo que se mueve en tu ciudad, ahora mismo.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-feed-2.webp" alt="Feed de actividades en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="2 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s2.tag">🗺️ El mapa</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s2.title">Tu ciudad, en un mapa vivo.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s2.body">Cambia al mapa y mira los yoinns repartidos por tu zona. Filtra por
+                      categoría, distancia o fecha y encuentra tu plan.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-map-region.webp" alt="Mapa de actividades en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="3 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s3.tag">🔍 Acércate</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s3.title">Acércate a lo que te llama.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s3.body">Haz zoom en tu barrio y explora cada pin. Ves de qué trata el plan, dónde
+                      es y quién va antes de decidir.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-map-zoom.png" alt="Zoom del mapa en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="4 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s4.tag">✋ Únete</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s4.title">Únete con un solo tap.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s4.body">¿Te gustó un plan? Súmate al instante. Sabes quién va y cuántos cupos
+                      quedan antes de salir de tu casa.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-feed-1.webp" alt="Unirse a una actividad en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="5 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s5.tag">✨ Crea</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s5.title">¿No hay plan? Créalo tú.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s5.body">Publica tu propio yoinn en 30 segundos. Eliges actividad, lugar y hora —
+                      la gente correcta llega sola.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-create.webp" alt="Crear una actividad en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="cx-slide" role="group" aria-roledescription="paso" aria-label="6 de 6">
+              <div class="surface-card rounded-3xl p-6 md:p-12">
+                <div class="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                  <div class="order-2 lg:order-1">
+                    <span class="cx-tag mb-6" data-i18n="cx.s6.tag">🤝 Nos vemos</span>
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 mt-6" style="letter-spacing:-0.035em"
+                      data-i18n="cx.s6.title">Nos vemos en la vida real.</h3>
+                    <p class="text-lg md:text-xl text-ink-600 font-medium leading-snug max-w-md"
+                      data-i18n="cx.s6.body">Confirmas, sales y conoces gente de verdad. Sin swipe infinito, sin
+                      pantalla. Solo la calle, el cerro, el café.</p>
+                  </div>
+                  <div class="order-1 lg:order-2 flex justify-center">
+                    <div class="phone-frame max-w-[240px] md:max-w-[280px]">
+                      <img src="assets/screen-success.png" alt="Actividad confirmada en Yoinn"
+                        loading="lazy" decoding="async" width="280" height="560" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s1.title">Explora.</h3>
-          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s1.body">Descubre lo que está
-            pasando hoy a 500 metros de ti. Sunset en la playa, pádel un martes, café de especialidad.</p>
         </div>
-        <div class="reveal delay-1 md:mt-16">
-          <div class="step-num mb-4">02</div>
-          <div class="phone-frame max-w-[280px] mb-6">
-            <img src="assets/screen-map-region.webp" alt="" loading="lazy" decoding="async" width="280" height="560" />
+
+        <!-- Controles -->
+        <div class="flex items-center justify-between mt-8 md:mt-10">
+          <div class="flex items-center gap-2.5" id="cx-dots" role="tablist" aria-label="Ir al paso"></div>
+          <div class="flex items-center gap-3">
+            <button type="button" class="cx-arrow" id="cx-prev" aria-label="Paso anterior">
+              <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button type="button" class="cx-arrow" id="cx-next" aria-label="Paso siguiente">
+              <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
-          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s2.title">Descubre.</h3>
-          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s2.body">Ábre el mapa y mira
-            tu ciudad llena de yoinns. Filtra por categoría, distancia o fecha. Únete con un tap.</p>
-        </div>
-        <div class="reveal delay-2 md:mt-32">
-          <div class="step-num mb-4">03</div>
-          <div class="phone-frame max-w-[280px] mb-6">
-            <img src="assets/screen-create.webp" alt="" loading="lazy" decoding="async" width="280" height="560" />
-          </div>
-          <h3 class="text-3xl font-black mb-2" style="letter-spacing:-0.03em" data-i18n="how.s3.title">Crea.</h3>
-          <p class="text-lg text-ink-600 font-medium leading-snug max-w-xs" data-i18n="how.s3.body">¿Quieres armar tu
-            propio plan? Publica un yoinn en 30 segundos. La gente correcta llega sola.</p>
         </div>
       </div>
     </div>
@@ -919,14 +1108,26 @@
         'cat.eyebrow': 'Está pasando',
         'cat.title': 'Todo. Y a la vuelta de la esquina.',
         'how.eyebrow': 'Cómo funciona',
-        'how.title.l1': 'Tres pasos.',
-        'how.title.l2': 'Cero fricción.',
-        'how.s1.title': 'Explora.',
-        'how.s1.body': 'Descubre lo que está pasando hoy a 500 metros de ti. Sunset en la playa, pádel un martes, café de especialidad.',
-        'how.s2.title': 'Descubre.',
-        'how.s2.body': 'Ábre el mapa y mira tu ciudad llena de yoinns. Filtra por categoría, distancia o fecha. Únete con un tap.',
-        'how.s3.title': 'Crea.',
-        'how.s3.body': '¿Quieres armar tu propio plan? Publica un yoinn en 30 segundos. La gente correcta llega sola.',
+        'how.title.l1': 'Así de simple.',
+        'how.title.l2': 'De la app a la calle.',
+        'cx.s1.tag': '📍 Explora',
+        'cx.s1.title': 'Mira qué está pasando hoy.',
+        'cx.s1.body': 'Abre Yoinn y descubre planes reales a metros de ti: sunset, pádel, café, trekking. Todo lo que se mueve en tu ciudad, ahora mismo.',
+        'cx.s2.tag': '🗺️ El mapa',
+        'cx.s2.title': 'Tu ciudad, en un mapa vivo.',
+        'cx.s2.body': 'Cambia al mapa y mira los yoinns repartidos por tu zona. Filtra por categoría, distancia o fecha y encuentra tu plan.',
+        'cx.s3.tag': '🔍 Acércate',
+        'cx.s3.title': 'Acércate a lo que te llama.',
+        'cx.s3.body': 'Haz zoom en tu barrio y explora cada pin. Ves de qué trata el plan, dónde es y quién va antes de decidir.',
+        'cx.s4.tag': '✋ Únete',
+        'cx.s4.title': 'Únete con un solo tap.',
+        'cx.s4.body': '¿Te gustó un plan? Súmate al instante. Sabes quién va y cuántos cupos quedan antes de salir de tu casa.',
+        'cx.s5.tag': '✨ Crea',
+        'cx.s5.title': '¿No hay plan? Créalo tú.',
+        'cx.s5.body': 'Publica tu propio yoinn en 30 segundos. Eliges actividad, lugar y hora — la gente correcta llega sola.',
+        'cx.s6.tag': '🤝 Nos vemos',
+        'cx.s6.title': 'Nos vemos en la vida real.',
+        'cx.s6.body': 'Confirmas, sales y conoces gente de verdad. Sin swipe infinito, sin pantalla. Solo la calle, el cerro, el café.',
         'gallery.eyebrow': 'La comunidad',
         'gallery.title.l1': 'Personas reales.',
         'gallery.title.l2': 'Momentos reales.',
@@ -993,14 +1194,26 @@
         'cat.eyebrow': "What's happening",
         'cat.title': 'Everything. And right around the corner.',
         'how.eyebrow': 'How it works',
-        'how.title.l1': 'Three steps.',
-        'how.title.l2': 'Zero friction.',
-        'how.s1.title': 'Explore.',
-        'how.s1.body': "Discover what's happening today, 500 meters from you. Sunset at the beach, padel on a Tuesday, specialty coffee.",
-        'how.s2.title': 'Discover.',
-        'how.s2.body': 'Open the map and see your city full of yoinns. Filter by category, distance or date. Join with one tap.',
-        'how.s3.title': 'Create.',
-        'how.s3.body': 'Want to throw your own plan? Post a yoinn in 30 seconds. The right people show up.',
+        'how.title.l1': 'This simple.',
+        'how.title.l2': 'From the app to the street.',
+        'cx.s1.tag': '📍 Explore',
+        'cx.s1.title': "See what's happening today.",
+        'cx.s1.body': 'Open Yoinn and discover real plans meters from you: sunset, padel, coffee, hiking. Everything happening in your city, right now.',
+        'cx.s2.tag': '🗺️ The map',
+        'cx.s2.title': 'Your city, on a live map.',
+        'cx.s2.body': 'Switch to the map and see yoinns spread across your area. Filter by category, distance or date and find your plan.',
+        'cx.s3.tag': '🔍 Zoom in',
+        'cx.s3.title': 'Get closer to what calls you.',
+        'cx.s3.body': 'Zoom into your neighborhood and explore each pin. See what the plan is about, where it is and who’s going before you decide.',
+        'cx.s4.tag': '✋ Join',
+        'cx.s4.title': 'Join with a single tap.',
+        'cx.s4.body': 'Like a plan? Join instantly. You know who’s going and how many spots are left before you leave your house.',
+        'cx.s5.tag': '✨ Create',
+        'cx.s5.title': 'No plan? Make your own.',
+        'cx.s5.body': 'Post your own yoinn in 30 seconds. Pick the activity, place and time — the right people show up.',
+        'cx.s6.tag': '🤝 See you there',
+        'cx.s6.title': 'See you in real life.',
+        'cx.s6.body': 'You confirm, head out and meet real people. No endless swiping, no screen. Just the street, the trail, the café.',
         'gallery.eyebrow': 'The community',
         'gallery.title.l1': 'Real people.',
         'gallery.title.l2': 'Real moments.',
@@ -1053,14 +1266,14 @@
     const GALLERY_TOP = [
       { key: 'gallery.c.sunset',   img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.padel',    img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=800&q=75' },
-      { key: 'gallery.c.asado',    img: 'https://images.unsplash.com/photo-1555396273-a97929f706c0?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.asado',    img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.trekking', img: 'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.cafe',     img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.tocata',   img: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&h=800&q=75' },
     ];
 
     const GALLERY_BOT = [
-      { key: 'gallery.c.surf',   img: 'https://images.unsplash.com/photo-1502680390469-be75c86b66b2?auto=format&fit=crop&w=600&h=800&q=75' },
+      { key: 'gallery.c.surf',   img: 'https://images.unsplash.com/photo-1502933691298-84fc14542831?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.yoga',   img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.cine',   img: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&h=800&q=75' },
       { key: 'gallery.c.pintar', img: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=600&h=800&q=75' },
@@ -1195,12 +1408,16 @@
       imgWrap.className = 'img-wrap';
 
       const img = document.createElement('img');
-      img.src = item.img;
       img.alt = isClone ? '' : label;
       img.loading = 'lazy';
       img.decoding = 'async';
       img.width = 600;
       img.height = 800;
+      // If the image 404s (dead Unsplash id, revoked Storage token, deleted
+      // activity), flag the card so it fills with a branded gradient + pin
+      // instead of an empty teal skeleton. Keeps card width → marquee stays synced.
+      img.addEventListener('error', () => { card.classList.add('is-fallback'); }, { once: true });
+      img.src = item.img;
       imgWrap.appendChild(img);
 
       const meta = document.createElement('div');
@@ -1295,6 +1512,110 @@
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
       document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+      /* ── Carrusel "Cómo funciona" ─────────────────────
+         Single-slide carousel: transform % based (no reflow on resize),
+         pointer drag + dots + arrows + keyboard + autoplay.
+         Autoplay pauses on hover/focus/drag/tab-hidden and respects
+         prefers-reduced-motion. */
+      (function initHowCarousel() {
+        const root  = document.getElementById('how-carousel');
+        const track = document.getElementById('cx-track');
+        const dotsEl = document.getElementById('cx-dots');
+        if (!root || !track || !dotsEl) return;
+
+        const slides = Array.from(track.children);
+        const total = slides.length;
+        if (!total) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let index = 0;
+        let timer = null;
+
+        // Build dots
+        const dots = slides.map((_, i) => {
+          const d = document.createElement('button');
+          d.type = 'button';
+          d.className = 'cx-dot' + (i === 0 ? ' active' : '');
+          d.setAttribute('role', 'tab');
+          d.setAttribute('aria-label', 'Paso ' + (i + 1));
+          d.addEventListener('click', () => { goTo(i); restart(); });
+          dotsEl.appendChild(d);
+          return d;
+        });
+
+        function render() {
+          track.style.transform = 'translateX(' + (-index * 100) + '%)';
+          dots.forEach((d, i) => {
+            const on = i === index;
+            d.classList.toggle('active', on);
+            d.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          slides.forEach((s, i) => s.setAttribute('aria-hidden', i === index ? 'false' : 'true'));
+        }
+
+        function goTo(i) { index = (i + total) % total; render(); }
+        const next = () => goTo(index + 1);
+        const prev = () => goTo(index - 1);
+
+        function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+        function start() {
+          if (reduce || timer) return;
+          if (document.hidden) return;
+          timer = setInterval(next, 5500);
+        }
+        function restart() { stop(); start(); }
+
+        document.getElementById('cx-next').addEventListener('click', () => { next(); restart(); });
+        document.getElementById('cx-prev').addEventListener('click', () => { prev(); restart(); });
+
+        // Keyboard (when region focused)
+        root.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight') { e.preventDefault(); next(); restart(); }
+          else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); restart(); }
+        });
+
+        // Pause on hover / focus, resume on leave
+        root.addEventListener('mouseenter', stop);
+        root.addEventListener('mouseleave', start);
+        root.addEventListener('focusin', stop);
+        root.addEventListener('focusout', start);
+        document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+
+        // Pointer drag / swipe
+        let dragging = false, startX = 0, dx = 0, width = 0;
+        track.addEventListener('pointerdown', (e) => {
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          dragging = true; startX = e.clientX; dx = 0;
+          width = track.getBoundingClientRect().width || 1;
+          track.classList.add('dragging');
+          track.setPointerCapture(e.pointerId);
+          stop();
+        });
+        track.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          dx = e.clientX - startX;
+          track.style.transform = 'translateX(calc(' + (-index * 100) + '% + ' + dx + 'px))';
+        });
+        function endDrag(e) {
+          if (!dragging) return;
+          dragging = false;
+          track.classList.remove('dragging');
+          try { track.releasePointerCapture(e.pointerId); } catch (_) {}
+          const threshold = Math.min(120, width * 0.18);
+          if (dx <= -threshold) next();
+          else if (dx >= threshold) prev();
+          else render();
+          restart();
+        }
+        track.addEventListener('pointerup', endDrag);
+        track.addEventListener('pointercancel', endDrag);
+        // Prevent ghost image-drag interfering with swipe
+        track.querySelectorAll('img').forEach(img => img.setAttribute('draggable', 'false'));
+
+        render();
+        start();
+      })();
 
       // Tweaks panel
       const panel = document.getElementById('tweaks-panel');
