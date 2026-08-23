@@ -4,9 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Política de Reembolsos | Yoinn</title>
-  <meta name="description" content="Política de reembolsos de Yoinn para eventos pagados: si un evento se cancela o no puede realizarse, recibes el reembolso total —comisión incluida— a tu mismo medio de pago." />
+  <meta name="description" content="Las entradas de Yoinn son de compra final. Si el evento se cancela recibes el 100% de lo pagado, comisión incluida, de forma automática y a tu mismo medio de pago." />
   <link rel="canonical" href="https://www.yoinn.cl/reembolsos" />
-  <meta property="og:title" content="Política de Reembolsos — Yoinn" /><strong>Compra final.</strong> Las entradas son de compra final y no admiten retracto. El único reembolso es por <strong>cancelación del evento</strong>: en ese caso recibes el 100% de lo pagado —comisión incluida— de forma automática, a tu mismo medio de pago, con cargo a los fondos del organizador.</script>
+  <meta property="og:title" content="Política de Reembolsos — Yoinn" />
+  <meta property="og:description" content="Compra final. El único reembolso es por cancelación del evento: 100% de lo pagado, comisión incluida, automático y a tu mismo medio de pago." />
+  <meta property="og:url" content="https://www.yoinn.cl/reembolsos" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" href="/assets/pin.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { theme: { extend: { colors: {
       cyan: { 400:'#00E5FF',500:'#00BCD4',600:'#00ACC1',700:'#0097A7' },
@@ -19,17 +28,27 @@
     body{font-family:'Poppins',system-ui,sans-serif;background:#E8F6F6;color:#0A0E1A}
     .display{font-weight:900;letter-spacing:-0.045em;line-height:0.98}
     .card{background:#fff;border:1px solid #C8ECEC;border-radius:20px}
-    .prose h2{font-weight:800;font-size:1.25rem;color:#0A0E1A;margin:1.6rem 0 .5rem;letter-spacing:-0.02em}
-    .prose p{color:#2A3548;margin:.5rem 0;line-height:1.65}
-    .prose ul{margin:.5rem 0 .75rem;padding-left:1.1rem;color:#2A3548}
-    .prose li{margin:.3rem 0;line-height:1.55}
-    .prose strong{color:#0A0E1A}
+    .prose h2{font-weight:800;font-size:1.2rem;color:#0A0E1A;margin:2rem 0 .5rem;letter-spacing:-0.02em;scroll-margin-top:1.5rem}
+    .prose h2:first-child{margin-top:0}
+    .prose p{color:#2A3548;margin:.5rem 0;line-height:1.7}
+    .prose strong{color:#0A0E1A;font-weight:700}
+    .prose a{color:#0097A7;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+    .prose a:hover{color:#00ACC1}
+    /* Foco visible: esta página se recorre por índice y con teclado. */
+    a:focus-visible,summary:focus-visible{outline:3px solid #00BCD4;outline-offset:3px;border-radius:6px}
+    .idx a{color:#0097A7;text-decoration:none}
+    .idx a:hover{text-decoration:underline}
+    @media print{
+      body{background:#fff}
+      .no-print{display:none}
+      .card{border:none;box-shadow:none}
+    }
   </style>
 </head>
 <body class="min-h-screen">
-  <header class="max-w-3xl mx-auto px-5 pt-8 flex items-center justify-between">
+  <header class="max-w-3xl mx-auto px-5 pt-8 flex items-center justify-between no-print">
     <a href="/" class="flex items-center gap-2">
-      <img src="/assets/pin.png" alt="Yoinn" class="w-8 h-8" onerror="this.style.display='none'" />
+      <img src="/assets/pin.png" alt="" class="w-8 h-8" onerror="this.style.display='none'" />
       <span class="display text-2xl">Yoinn</span>
     </a>
     <a href="/" class="text-sm font-semibold text-cyan-700 hover:text-cyan-600">← Volver a Yoinn</a>
@@ -39,29 +58,79 @@
     <div class="card p-6 sm:p-9 shadow-sm">
       <p class="text-cyan-700 font-bold text-sm tracking-wide uppercase">Condiciones de compra</p>
       <h1 class="display text-4xl sm:text-5xl mt-1">Política de reembolsos</h1>
-      <p class="text-ink-500 mt-3 text-sm">Aplica a las entradas de <strong>eventos pagados</strong> comprados en Yoinn. Los eventos gratuitos no generan cobros y por lo tanto no aplican reembolsos.</p>
+      <p class="text-ink-500 mt-3 text-sm">Aplica a las entradas de <strong>eventos pagados</strong> comprados en Yoinn. Los eventos gratuitos no generan cobros, así que no hay nada que reembolsar.</p>
 
-      <div class="mt-5 rounded-2xl bg-mint-50 border border-mint-200 p-4">
-        <p class="font-extrabold">Compra final.</p>
-        <p class="text-ink-600 text-sm mt-1">Las entradas no admiten retracto. El único reembolso es por <strong>cancelación del evento</strong>: ahí recibes el <strong>100% de lo pagado</strong> —comisión incluida— de forma automática, a tu mismo medio de pago, con cargo a los fondos del organizador.</p>
-      </div>
+      <!-- La respuesta primero. Quien llega acá tiene una sola pregunta y merece verla
+           resuelta sin leer ocho secciones legales. -->
+      <section class="mt-6" aria-labelledby="tu-caso">
+        <h2 id="tu-caso" class="font-extrabold text-lg">¿Qué pasa en tu caso?</h2>
 
-      <div class="prose mt-6">
-        <h2>1. Compra final</h2>
+        <div class="mt-3 rounded-2xl bg-mint-50 border border-mint-200 p-4 flex gap-3">
+          <span class="text-2xl leading-none" aria-hidden="true">✅</span>
+          <div>
+            <p class="font-extrabold">Se canceló el evento</p>
+            <p class="text-ink-600 text-sm mt-1">Recibes el <strong>100% de lo pagado</strong>, incluido el cargo por servicio. Es <strong>automático</strong>: lo iniciamos nosotros apenas se confirma la cancelación y vuelve a tu mismo medio de pago. No tienes que pedirlo.</p>
+          </div>
+        </div>
+
+        <div class="mt-3 rounded-2xl bg-mint-50 border border-mint-200 p-4 flex gap-3">
+          <span class="text-2xl leading-none" aria-hidden="true">📅</span>
+          <div>
+            <p class="font-extrabold">Cambió la fecha o el lugar</p>
+            <p class="text-ink-600 text-sm mt-1">Si el cambio es material, se gestiona <strong>igual que una cancelación</strong>: se te devuelve el 100% y el organizador puede publicar el evento nuevo. Si querés ir a la fecha nueva, comprás de nuevo.</p>
+          </div>
+        </div>
+
+        <div class="mt-3 rounded-2xl bg-white border border-ink-500/20 p-4 flex gap-3">
+          <span class="text-2xl leading-none" aria-hidden="true">🚫</span>
+          <div>
+            <p class="font-extrabold">No puedes ir, o te arrepentiste</p>
+            <p class="text-ink-600 text-sm mt-1">No hay reembolso. Las entradas son de <strong>compra final</strong> y no admiten retracto — se te informa de forma destacada antes de pagar. <a href="#s1">Por qué</a>.</p>
+          </div>
+        </div>
+
+        <div class="mt-3 rounded-2xl bg-white border border-coral-500/30 p-4 flex gap-3">
+          <span class="text-2xl leading-none" aria-hidden="true">⏳</span>
+          <div>
+            <p class="font-extrabold">Pasaron 5 días hábiles y no ves la plata</p>
+            <p class="text-ink-600 text-sm mt-1">Escribinos y lo revisamos con vos.
+              <a class="font-semibold text-cyan-700 hover:text-cyan-600 underline" href="mailto:letsgo@yoinn.cl?subject=Reembolso%20pendiente&amp;body=Hola%2C%20no%20veo%20mi%20reembolso.%0A%0AEvento%3A%20%0AN%C3%BAmero%20de%20boleta%3A%20%0AFecha%20de%20compra%3A%20%0A">letsgo@yoinn.cl</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Índice: son ocho secciones legales y en el teléfono se vuelven un muro. -->
+      <nav class="idx mt-8 rounded-2xl bg-mint-50/60 border border-mint-200 p-4 text-sm no-print" aria-label="Índice de la política">
+        <p class="font-extrabold text-ink-900 mb-2">El detalle, sección por sección</p>
+        <ol class="grid sm:grid-cols-2 gap-x-6 gap-y-1 list-decimal list-inside text-ink-600">
+          <li><a href="#s1">Compra final</a></li>
+          <li><a href="#s2">Único caso de reembolso</a></li>
+          <li><a href="#s3">Quién devuelve el dinero</a></li>
+          <li><a href="#s4">Cómo se procesa</a></li>
+          <li><a href="#s5">Plazos</a></li>
+          <li><a href="#s6">Contacto y soporte</a></li>
+          <li><a href="#s7">Marco legal</a></li>
+          <li><a href="#s8">Vigencia</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose mt-8">
+        <h2 id="s1">1. Compra final</h2>
         <p>Las entradas de eventos pagados en Yoinn son de <strong>compra final</strong>: no
         están sujetas al derecho de retracto de 10 días del art. 3° bis de la Ley 19.496. Esa
         exclusión la dispone expresamente <strong>el organizador del evento</strong>, en su
         calidad de proveedor del servicio, y se te informa antes de pagar en la pantalla de
         compra.</p>
 
-        <h2>2. Único caso de reembolso: que el evento se cancele</h2>
+        <h2 id="s2">2. Único caso de reembolso: que el evento se cancele</h2>
         <p>Si el evento se cancela, recibes el <strong>100% de lo pagado, comisión de servicio
         incluida</strong>. No se retienen montos.</p>
         <p>Un <strong>cambio material de fecha o lugar</strong> se gestiona como cancelación del
         evento original: se reembolsa el 100% y el organizador puede publicar el evento nuevo.</p>
         <p>Fuera de la cancelación no hay reembolso. No existe devolución por arrepentimiento.</p>
 
-        <h2>3. Quién devuelve el dinero</h2>
+        <h2 id="s3">3. Quién devuelve el dinero</h2>
         <p><strong>El organizador es el responsable del evento</strong>: de que se realice, de lo
         que ocurra durante la actividad, y de responder ante quienes asisten. Los reembolsos
         <strong>se pagan con los fondos de su cuenta de Mercado Pago</strong>, que es donde
@@ -70,45 +139,57 @@
         apenas se confirma la cancelación. Yoinn intermedia la venta y cobra un cargo por
         servicio; ese cargo también se te devuelve.</p>
 
-        <h2>4. Cómo se procesa</h2>
+        <h2 id="s4">4. Cómo se procesa</h2>
         <p>El reembolso se realiza a través de <strong>Mercado Pago</strong>, devolviendo el
         dinero al mismo medio de pago con el que compraste. Se emite además una
         <strong>Nota de Crédito electrónica</strong> que anula la boleta original ante el
         Servicio de Impuestos Internos.</p>
 
-        <h2>5. Plazos</h2>
+        <h2 id="s5">5. Plazos</h2>
         <p>Yoinn inicia el reembolso de inmediato al confirmarse la cancelación. El tiempo en que
         el dinero se refleja depende de tu medio de pago y de Mercado Pago (habitualmente algunos
         días hábiles; en tarjetas de crédito puede depender del ciclo de facturación de tu
         banco).</p>
         <p><strong>Si pasados 5 días hábiles no ves el reembolso</strong>, escríbenos a
-        soporte@yoinn.cl con el número de tu boleta y lo revisamos contigo.</p>
+        <a href="mailto:letsgo@yoinn.cl?subject=Reembolso%20pendiente">letsgo@yoinn.cl</a> con el
+        número de tu boleta y lo revisamos contigo.</p>
 
-        <h2>6. Contacto y soporte</h2>
+        <h2 id="s6">6. Contacto y soporte</h2>
         <p>Para cualquier consulta sobre un pago o reembolso, escríbenos a
-        <strong>soporte@yoinn.cl</strong> indicando el evento y el número de tu boleta.</p>
+        <a href="mailto:letsgo@yoinn.cl?subject=Consulta%20sobre%20un%20pago%20o%20reembolso">letsgo@yoinn.cl</a>
+        indicando el evento y el número de tu boleta. Es la misma dirección para todo: no hay
+        casillas separadas que se pierdan.</p>
 
-        <h2>7. Marco legal</h2>
+        <h2 id="s7">7. Marco legal</h2>
         <p>Esta política se rige por la legislación chilena, incluida la <strong>Ley N°
         19.496</strong> sobre protección de los derechos de los consumidores. El organizador es
         el proveedor del evento y el responsable de su realización y de lo que ocurra durante la
         actividad; Yoinn intermedia la venta de las entradas y el pago, y cobra un cargo por
         servicio.</p>
 
-        <h2>8. Vigencia</h2>
-        <p>Esta es la <strong>versión 2</strong> de la política, vigente desde el 21 de agosto de
-        2026. <strong>Las compras realizadas antes de esa fecha se rigen por la versión que
-        estaba publicada al momento de la compra.</strong></p>
+        <h2 id="s8">8. Vigencia</h2>
+        <p>Esta es la <strong>versión 2</strong> de la política, vigente desde el
+        <strong>21 de agosto de 2026</strong>. <strong>Las compras realizadas antes de esa fecha
+        se rigen por la versión que estaba publicada al momento de la compra.</strong></p>
       </div>
 
-      <p class="text-ink-500 text-xs mt-8">YOINN SPA · RUT 77.985.103-6 · Puerto Montt, Chile · Última actualización: julio 2026.</p>
+      <div class="mt-8 rounded-2xl bg-ink-900 text-white p-5 no-print">
+        <p class="font-extrabold">¿Tenés una duda que esto no responde?</p>
+        <p class="text-white/75 text-sm mt-1">Escribinos y te contestamos nosotros, no un formulario.</p>
+        <a href="mailto:letsgo@yoinn.cl?subject=Consulta%20sobre%20reembolsos"
+           class="inline-block mt-3 rounded-full bg-cyan-400 text-ink-900 font-extrabold px-5 py-2.5 text-sm hover:bg-cyan-500 transition">
+          letsgo@yoinn.cl
+        </a>
+      </div>
+
+      <p class="text-ink-500 text-xs mt-8">YOINN SPA · RUT 77.985.103-6 · Puerto Montt, Chile · Última actualización: 23 de agosto de 2026.</p>
     </div>
   </main>
 
-  <footer class="max-w-3xl mx-auto px-5 pb-10 text-center text-ink-500 text-xs">
+  <footer class="max-w-3xl mx-auto px-5 pb-10 text-center text-ink-500 text-xs no-print">
     <a href="/" class="hover:text-cyan-700">Inicio</a> ·
     <a href="/anfitriones" class="hover:text-cyan-700">Anfitriones</a> ·
-    <a href="mailto:soporte@yoinn.cl" class="hover:text-cyan-700">Soporte</a>
+    <a href="mailto:letsgo@yoinn.cl" class="hover:text-cyan-700">Contacto</a>
     <p class="mt-2">© 2026 Yoinn. Todos los derechos reservados.</p>
   </footer>
 </body>
