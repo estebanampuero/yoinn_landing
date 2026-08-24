@@ -1,86 +1,227 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Términos y Condiciones - YOINN</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { brand: { cyan: '#00BCD4', dark: '#0F172A' } },
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Términos y Condiciones | Yoinn</title>
+  <meta name="description" content="Términos y condiciones de Yoinn: qué hace Yoinn en una venta de entradas, quién responde por el evento, cargo por servicio, compra final, reembolsos y suscripción Pro." />
+  <link rel="canonical" href="https://www.yoinn.cl/terms" />
+  <meta property="og:title" content="Términos y Condiciones — Yoinn" />
+  <meta property="og:description" content="Qué hace Yoinn en una venta, quién responde por el evento, cargo por servicio, compra final y reembolsos." />
+  <meta property="og:url" content="https://www.yoinn.cl/terms" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" href="/assets/pin.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: {
+      cyan: { 400:'#00E5FF',500:'#00BCD4',600:'#00ACC1',700:'#0097A7' },
+      mint: { 50:'#F0FAFA',100:'#E0F4F4',200:'#C8ECEC',300:'#A8DEDE' },
+      ink:  { 900:'#0A0E1A',800:'#141A2A',700:'#1A2332',600:'#2A3548',500:'#5A6B7E' },
+      coral:{ 500:'#FF5E5B',600:'#E84743' },
+      gold: { 400:'#FFD93B',500:'#FFB300',600:'#C9963F' } }, fontFamily:{ sans:['Poppins','system-ui','sans-serif'] } } } };
+  </script>
+  <style>
+    body{font-family:'Poppins',system-ui,sans-serif;background:#E8F6F6;color:#0A0E1A}
+    .display{font-weight:900;letter-spacing:-0.045em;line-height:0.98}
+    .card{background:#fff;border:1px solid #C8ECEC;border-radius:20px}
+    .prose h2{font-weight:800;font-size:1.2rem;color:#0A0E1A;margin:2rem 0 .5rem;letter-spacing:-0.02em;scroll-margin-top:1.5rem}
+    .prose h2:first-child{margin-top:0}
+    .prose p{color:#2A3548;margin:.5rem 0;line-height:1.7}
+    .prose ul{margin:.5rem 0 .75rem;padding-left:1.15rem;color:#2A3548}
+    .prose li{margin:.35rem 0;line-height:1.6}
+    .prose strong{color:#0A0E1A;font-weight:700}
+    .prose a{color:#0097A7;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+    .prose a:hover{color:#00ACC1}
+    a:focus-visible{outline:3px solid #00BCD4;outline-offset:3px;border-radius:6px}
+    .idx a{color:#0097A7;text-decoration:none}
+    .idx a:hover{text-decoration:underline}
+    @media print{ body{background:#fff} .no-print{display:none} .card{border:none;box-shadow:none} }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
+<body class="min-h-screen">
+  <header class="max-w-3xl mx-auto px-5 pt-8 flex items-center justify-between no-print">
+    <a href="/" class="flex items-center gap-2">
+      <img src="/assets/pin.png" alt="" class="w-8 h-8" onerror="this.style.display='none'" />
+      <span class="display text-2xl">Yoinn</span>
+    </a>
+    <a href="/" class="text-sm font-semibold text-cyan-700 hover:text-cyan-600">← Volver a Yoinn</a>
+  </header>
 
-    <nav class="w-full px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <a href="index.html" class="flex items-center gap-2 hover:opacity-70 transition-opacity">
-            <i class="fa-solid fa-arrow-left text-brand-cyan"></i>
-            <span class="font-bold text-gray-900">Volver a Yoinn</span>
-        </a>
-    </nav>
+  <main class="max-w-3xl mx-auto px-5 py-8">
+    <div class="card p-6 sm:p-9 shadow-sm">
+      <p class="text-cyan-700 font-bold text-sm tracking-wide uppercase">Condiciones del servicio</p>
+      <h1 class="display text-4xl sm:text-5xl mt-1">Términos y condiciones</h1>
+      <p class="text-ink-500 mt-3 text-sm">Rigen el uso de Yoinn: la app, el sitio y la compra de entradas a eventos pagados.</p>
 
-    <main class="max-w-3xl mx-auto px-6 py-12 md:py-20">
-        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100">
-            
-            <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-6">Términos y Condiciones (EULA)</h1>
-            <p class="text-lg text-gray-600 mb-8 border-l-4 border-brand-cyan pl-4 italic">
-                Al unirte a Yoinn, aceptas formar parte de una comunidad basada en el respeto y la seguridad.
-            </p>
-
-            <div class="space-y-10">
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">1. Código de Conducta</h3>
-                    <p class="text-gray-600 text-justify">
-                        Yoinn es para conectar. No toleramos acoso, discriminación, contenido ilegal o comportamiento ofensivo. Nos reservamos el derecho de suspender permanentemente cualquier cuenta que viole estas normas.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">2. Propiedad Intelectual</h3>
-                    <p class="text-gray-600 text-justify">
-                        Tú eres dueño del contenido que subes. Al publicarlo, otorgas a Yoinn una licencia para mostrarlo dentro de la plataforma para el funcionamiento del servicio.
-                    </p>
-                </div>
-
-                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-                    <div class="flex items-center gap-3 mb-4">
-                        <i class="fa-solid fa-star text-yellow-500"></i>
-                        <h3 class="text-lg font-bold text-gray-900">Suscripción Yoinn PRO</h3>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-4">Para desbloquear todo el potencial, ofrecemos una suscripción auto-renovable:</p>
-                    <ul class="text-sm space-y-3 text-gray-600">
-                        <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div><strong>Duración:</strong> Mensual (renovación automática).</div></li>
-                        <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div><strong>Precio:</strong> El precio se muestra en la tienda de tu región antes de confirmar.</div></li>
-                        <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div><strong>Pago:</strong> Se cargará a tu cuenta de Apple ID al confirmar la compra.</div></li>
-                        <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div><strong>Renovación:</strong> Se cobra 24 horas antes del final del periodo actual, a menos que canceles antes.</div></li>
-                        <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div><strong>Cancelación:</strong> Puedes gestionar o cancelar tu suscripción en cualquier momento desde los Ajustes de tu cuenta de Apple ID.</div></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">3. Responsabilidad</h3>
-                    <p class="text-gray-600 text-justify">
-                        Yoinn es un facilitador tecnológico. No organizamos los eventos ni controlamos el comportamiento de los usuarios en el mundo físico. Recomendamos siempre el sentido común y la precaución.
-                    </p>
-                </div>
-
-                <div class="border-t pt-8 mt-8">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Centro de Ayuda</h3>
-                    <p class="text-gray-600 mb-2">¿Necesitas ayuda con tu cuenta o suscripción? Nuestro equipo de soporte está listo para asistirte.</p>
-                    <a href="mailto:letsgo@yoinn.cl" class="text-brand-cyan font-bold hover:underline block mb-1">letsgo@yoinn.cl</a>
-                    <span class="text-xs text-gray-400">Tiempo de respuesta promedio: < 24 horas</span>
-                </div>
-            </div>
+      <!-- Lo esencial arriba. Un documento legal que obliga a leerlo entero para enterarse de
+           lo básico cumple la forma y falla el propósito. -->
+      <section class="mt-6" aria-labelledby="esencial">
+        <h2 id="esencial" class="font-extrabold text-lg">Lo esencial, en 30 segundos</h2>
+        <div class="mt-3 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-2xl bg-mint-50 border border-mint-200 p-4">
+            <p class="font-extrabold text-sm">Yoinn intermedia la venta</p>
+            <p class="text-ink-600 text-sm mt-1">Publicamos la oferta del organizador, procesamos el pago, emitimos la entrada y validamos el acceso. Por eso cobramos un <strong>cargo por servicio</strong>.</p>
+          </div>
+          <div class="rounded-2xl bg-mint-50 border border-mint-200 p-4">
+            <p class="font-extrabold text-sm">El evento lo realiza el organizador</p>
+            <p class="text-ink-600 text-sm mt-1">Él responde por que se realice y por lo que ocurra durante la actividad. Yoinn no produce ni organiza las actividades que se publican.</p>
+          </div>
+          <div class="rounded-2xl bg-mint-50 border border-mint-200 p-4">
+            <p class="font-extrabold text-sm">Las entradas son de compra final</p>
+            <p class="text-ink-600 text-sm mt-1">No hay retracto. El único reembolso es por <strong>cancelación del evento</strong>, y ahí se devuelve el 100 %.</p>
+          </div>
+          <div class="rounded-2xl bg-mint-50 border border-mint-200 p-4">
+            <p class="font-extrabold text-sm">Si tienes un problema, escríbenos</p>
+            <p class="text-ink-600 text-sm mt-1">Aunque el evento sea del organizador, <strong>Yoinn es tu punto de contacto</strong> y gestiona el caso.</p>
+          </div>
         </div>
-        <p class="text-center text-gray-400 text-xs mt-8">© 2026 Yoinn App.</p>
-    </main>
+      </section>
+
+      <nav class="idx mt-8 rounded-2xl bg-mint-50/60 border border-mint-200 p-4 text-sm no-print" aria-label="Índice">
+        <p class="font-extrabold text-ink-900 mb-2">Contenido</p>
+        <ol class="grid sm:grid-cols-2 gap-x-6 gap-y-1 list-decimal list-inside text-ink-600">
+          <li><a href="#s1">Qué es Yoinn y qué hace en una venta</a></li>
+          <li><a href="#s2">Cargo por servicio y reparto del dinero</a></li>
+          <li><a href="#s3">Compra final</a></li>
+          <li><a href="#s4">Reembolsos</a></li>
+          <li><a href="#s5">Obligaciones del organizador</a></li>
+          <li><a href="#s6">Quién responde por qué</a></li>
+          <li><a href="#s7">Código de conducta</a></li>
+          <li><a href="#s8">Contenido y propiedad intelectual</a></li>
+          <li><a href="#s9">Suscripción Yoinn Pro</a></li>
+          <li><a href="#s10">Datos personales</a></li>
+          <li><a href="#s11">Marco legal</a></li>
+          <li><a href="#s12">Vigencia y cambios</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose mt-8">
+        <h2 id="s1">1. Qué es Yoinn y qué hace en una venta</h2>
+        <p>Yoinn es una plataforma que conecta a organizadores de actividades con personas que
+        quieren asistir. Cuando una actividad tiene entradas pagadas, Yoinn <strong>intermedia
+        la venta</strong>: publica la oferta del organizador, procesa el pago a través de
+        Mercado Pago, emite la entrada electrónica y valida el acceso el día del evento.</p>
+        <p><strong>El evento lo realiza el organizador.</strong> Yoinn no produce, no organiza
+        ni ejecuta las actividades que se publican.</p>
+
+        <h2 id="s2">2. Cargo por servicio y cómo se reparte el dinero</h2>
+        <p>Al comprar una entrada pagas <strong>el precio que fijó el organizador</strong> más
+        un <strong>cargo por servicio</strong>. El desglose completo se muestra en pantalla
+        antes de confirmar la compra.</p>
+        <p>El dinero de cada venta ingresa <strong>directamente a la cuenta de Mercado Pago del
+        organizador</strong>. Yoinn recibe únicamente su cargo por servicio, que Mercado Pago
+        separa en la misma operación. <strong>Yoinn no custodia</strong> los fondos del
+        organizador en ningún momento.</p>
+        <p>Yoinn emite una boleta electrónica <strong>por su cargo por servicio</strong>. La
+        documentación tributaria del valor de la entrada corresponde al organizador.</p>
+
+        <h2 id="s3">3. Compra final</h2>
+        <p>Las entradas de eventos pagados son de <strong>compra final</strong>: no están
+        sujetas al derecho de retracto de 10 días del art. 3° bis de la Ley 19.496.</p>
+        <p>Esta exclusión <strong>la dispone el organizador</strong>, en su calidad de proveedor
+        del servicio, al aceptar las condiciones de venta antes de publicar su evento. Se te
+        informa de manera destacada en la pantalla de compra, antes de pagar.</p>
+
+        <h2 id="s4">4. Reembolsos</h2>
+        <p><strong>El único caso de reembolso es la cancelación del evento.</strong> Si el
+        evento se cancela, recibes el <strong>100 % de lo pagado, cargo por servicio
+        incluido</strong>. Un cambio material de fecha o lugar se gestiona como cancelación del
+        evento original.</p>
+        <p>Los reembolsos se pagan <strong>con los fondos del organizador</strong> en su cuenta
+        de Mercado Pago, que es donde ingresó el dinero de tu compra. <strong>Yoinn ejecuta el
+        reembolso</strong>: lo inicia automáticamente al confirmarse la cancelación y devuelve
+        también su cargo por servicio.</p>
+        <p>El detalle completo, con plazos y cómo se procesa, está en la
+        <a href="/reembolsos">política de reembolsos</a>.</p>
+
+        <h2 id="s5">5. Obligaciones del organizador</h2>
+        <p>Al publicar un evento con entradas pagadas, el organizador:</p>
+        <ul>
+          <li>Declara su situación tributaria y acredita, cuando corresponde, su inicio de
+          actividades ante el Servicio de Impuestos Internos.</li>
+          <li>Verifica su identidad: Yoinn contrasta el RUT con el que cobra contra el que
+          declaró y contra su vigencia ante el SII. <strong>Ambos deben coincidir
+          exactamente.</strong></li>
+          <li>Dispone que las entradas de sus eventos son de compra final.</li>
+          <li><strong>Se obliga a mantener saldo suficiente</strong> en su cuenta de Mercado
+          Pago para cubrir los reembolsos si cancela.</li>
+          <li>Asume el costo no recuperable por entrada reembolsada.</li>
+          <li>Es responsable de que el evento se realice en las condiciones ofrecidas.</li>
+        </ul>
+
+        <h2 id="s6">6. Quién responde por qué</h2>
+        <p><strong>El organizador es el proveedor del evento.</strong> Responde por su
+        realización, por las condiciones en que se presta y por lo que ocurra durante la
+        actividad, frente a quienes asisten.</p>
+        <p><strong>Yoinn es responsable de lo que Yoinn hace</strong>: publicar la oferta
+        correctamente, procesar el pago, emitir la entrada, validar el acceso y ejecutar el
+        reembolso cuando corresponde conforme al capítulo 4.</p>
+        <p>Si tienes un problema con una compra, escríbenos: aunque el evento sea del
+        organizador, <strong>Yoinn es tu punto de contacto</strong> y gestiona el caso.</p>
+
+        <h2 id="s7">7. Código de conducta</h2>
+        <p>Yoinn es para conectar. No se tolera acoso, discriminación, contenido ilegal ni
+        comportamiento ofensivo. Yoinn puede suspender de forma permanente cualquier cuenta que
+        viole estas normas.</p>
+
+        <h2 id="s8">8. Contenido y propiedad intelectual</h2>
+        <p>Eres dueño del contenido que subes. Al publicarlo, otorgas a Yoinn una licencia para
+        mostrarlo dentro de la plataforma con el fin de operar el servicio.</p>
+
+        <h2 id="s9">9. Suscripción Yoinn Pro</h2>
+        <p>Yoinn Pro es una suscripción auto-renovable, independiente de la compra de entradas.</p>
+        <ul>
+          <li><strong>Duración:</strong> mensual o anual, con renovación automática.</li>
+          <li><strong>Precio:</strong> se muestra en la tienda de tu región antes de confirmar.</li>
+          <li><strong>Pago:</strong> se carga a tu cuenta de Apple ID o Google Play al confirmar
+          la compra.</li>
+          <li><strong>Renovación:</strong> se cobra 24 horas antes del final del periodo en
+          curso, salvo que canceles antes.</li>
+          <li><strong>Cancelación:</strong> puedes gestionarla o cancelarla en cualquier momento
+          desde los ajustes de tu cuenta de Apple ID o Google Play.</li>
+        </ul>
+
+        <h2 id="s10">10. Datos personales</h2>
+        <p>El tratamiento de datos se rige por la <a href="/privacy">Política de
+        Privacidad</a>. Para vender entradas, el organizador recibe de Yoinn los datos mínimos
+        necesarios para la operación del evento —el nombre de pila de quienes asisten y el
+        estado de su entrada— y es responsable de tratarlos solo con esa finalidad.</p>
+
+        <h2 id="s11">11. Marco legal</h2>
+        <p>Estos términos se rigen por la legislación chilena, incluida la <strong>Ley N°
+        19.496</strong> sobre protección de los derechos de los consumidores. El organizador es
+        el proveedor del evento y el responsable de su realización; Yoinn intermedia la venta de
+        las entradas y el pago, y cobra un cargo por servicio.</p>
+
+        <h2 id="s12">12. Vigencia y cambios</h2>
+        <p>Estos términos rigen desde su publicación. <strong>Las compras realizadas antes se
+        rigen por la versión vigente al momento de la compra</strong>, que Yoinn conserva. Cada
+        aceptación queda registrada con la versión del texto y la fecha.</p>
+      </div>
+
+      <div class="mt-8 rounded-2xl bg-ink-900 text-white p-5 no-print">
+        <p class="font-extrabold">¿Una duda que esto no responde?</p>
+        <p class="text-white/75 text-sm mt-1">Escríbenos y te contestamos nosotros, no un formulario.</p>
+        <a href="mailto:letsgo@yoinn.cl?subject=Consulta%20sobre%20los%20t%C3%A9rminos"
+           class="inline-block mt-3 rounded-full bg-cyan-400 text-ink-900 font-extrabold px-5 py-2.5 text-sm hover:bg-cyan-500 transition">
+          letsgo@yoinn.cl
+        </a>
+      </div>
+
+      <p class="text-ink-500 text-xs mt-8">YOINN SPA · RUT 77.985.103-6 · Puerto Montt, Chile · Versión 2, vigente desde el 23 de agosto de 2026.</p>
+    </div>
+  </main>
+
+  <footer class="max-w-3xl mx-auto px-5 pb-10 text-center text-ink-500 text-xs no-print">
+    <a href="/" class="hover:text-cyan-700">Inicio</a> ·
+    <a href="/reembolsos" class="hover:text-cyan-700">Reembolsos</a> ·
+    <a href="/privacy" class="hover:text-cyan-700">Privacidad</a> ·
+    <a href="mailto:letsgo@yoinn.cl" class="hover:text-cyan-700">Contacto</a>
+    <p class="mt-2">© 2026 Yoinn. Todos los derechos reservados.</p>
+  </footer>
 </body>
 </html>
