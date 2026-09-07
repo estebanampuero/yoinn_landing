@@ -9,6 +9,19 @@
       "**/node_modules/**"
     ],
     "cleanUrls": true,
+    "redirects": [
+      {
+        "//": "El programa de Super-Anfitriones se descontinuo (2026-09-07). La pagina sale de circulacion con un 301 a la home, que es lo que preserva el SEO. El archivo public/anfitriones.html se conserva por si hay que restituirla.",
+        "source": "/anfitriones",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/anfitriones.html",
+        "destination": "/",
+        "type": 301
+      }
+    ],
     "headers": [
       {
         "source": "/.well-known/apple-app-site-association",
