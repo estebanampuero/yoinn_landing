@@ -1,5 +1,7 @@
 {
   "functions": {
+    "//": "CODEBASE CON NOMBRE (2026-09-10). Sin `codebase`, este bloque declara el codebase 'default' del proyecto yoinnapp, que es el MISMO que despliega yoinn_app. Este repo exporta 6 funciones y yoinn_app exporta 87, asi que un `npm run deploy` desde aqui le proponia a Firebase BORRAR las otras 81, incluidas createTicketOrder, checkInTicket y mercadoPagoTicketWebhook. Con el codebase nombrado el deploy queda acotado a estas 6. Verificado el 2026-09-10: las 6 (activitySSR, recentActivities, submitHostApplication, listHostApplications, setHostApplicationStatus, sendSuperHostEmail) existen TAMBIEN en yoinn_app/functions, o sea que este directorio no tiene codigo unico. Se elimina entero en la etapa de limpieza; hasta entonces esta linea es el cortafuegos.",
+    "codebase": "landing",
     "source": "functions"
   },
   "hosting": {
